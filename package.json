@@ -1,0 +1,42 @@
+{
+  "name": "file2variable-cli",
+  "version": "1.0.0",
+  "description": "A CLI tool to read file content and assign it to a variable",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p src",
+    "lint": "tslint \"src/*.ts\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plantain-00/file2variable-cli.git"
+  },
+  "author": "York Yao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/plantain-00/file2variable-cli/issues"
+  },
+  "homepage": "https://github.com/plantain-00/file2variable-cli#readme",
+  "devDependencies": {
+    "@types/camelcase": "0.0.30",
+    "@types/glob": "5.0.30",
+    "@types/minimist": "1.2.0",
+    "@types/node": "7.0.13",
+    "tslint": "5.1.0",
+    "typescript": "2.2.2"
+  },
+  "dependencies": {
+    "camelcase": "4.1.0",
+    "glob": "7.1.1",
+    "lodash.flatten": "4.4.0",
+    "lodash.uniq": "4.5.0",
+    "minimist": "1.2.0",
+    "tslib": "1.6.1"
+  },
+  "bin": {
+    "file2variable-cli": "./bin/file2variable-cli"
+  },
+  "engines": {
+    "node": ">=4"
+  }
+}

@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs = require("fs");
-var minimist = require("minimist");
-var camelcase = require("camelcase");
-var glob = require("glob");
-var flatten = require("lodash.flatten");
-var uniq = require("lodash.uniq");
-var path = require("path");
+const fs = require("fs");
+const minimist = require("minimist");
+const camelcase = require("camelcase");
+const glob = require("glob");
+const flatten = require("lodash.flatten");
+const uniq = require("lodash.uniq");
+const path = require("path");
 function globAsync(pattern) {
-    return new Promise(function (resolve, reject) {
-        glob(pattern, function (error, matches) {
+    return new Promise((resolve, reject) => {
+        glob(pattern, (error, matches) => {
             if (error) {
                 reject(error);
             }
@@ -23,8 +23,8 @@ function getVariableName(filePath) {
     return camelcase(path.normalize(filePath).replace(/\\|\//g, "-"));
 }
 function writeFileAsync(filename, data) {
-    return new Promise(function (resolve, reject) {
-        fs.writeFile(filename, data, function (error) {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(filename, data, error => {
             if (error) {
                 reject(error);
             }
@@ -35,39 +35,38 @@ function writeFileAsync(filename, data) {
     });
 }
 function executeCommandLine() {
-    var argv = minimist(process.argv.slice(2), {
+    const argv = minimist(process.argv.slice(2), {
         "--": true,
     });
-    var inputFiles = argv["_"];
+    const inputFiles = argv["_"];
     if (!inputFiles || inputFiles.length === 0) {
         console.log("Error: no input files.");
         return;
     }
-    var outputFile = argv["o"];
+    const outputFile = argv["o"];
     if (!outputFile) {
         console.log("Error: no output files.");
         return;
     }
-    Promise.all(inputFiles.map(function (file) { return globAsync(file); })).then(function (files) {
-        var uniqFiles = uniq(flatten(files));
+    Promise.all(inputFiles.map(file => globAsync(file))).then(files => {
+        const uniqFiles = uniq(flatten(files));
         if (uniqFiles.length === 0) {
             console.log("Error: no input files.");
             return;
         }
-        var variables = [];
-        for (var _i = 0, uniqFiles_1 = uniqFiles; _i < uniqFiles_1.length; _i++) {
-            var file = uniqFiles_1[_i];
+        const variables = [];
+        for (const file of uniqFiles) {
             if (!fs.existsSync(file)) {
-                console.log("Error: file: \"" + file + "\" not exists.");
+                console.log(`Error: file: "${file}" not exists.`);
                 return;
             }
-            var variableName = getVariableName(file);
-            var fileString = fs.readFileSync(file).toString();
+            const variableName = getVariableName(file);
+            const fileString = fs.readFileSync(file).toString();
             variables.push({ name: variableName, value: fileString });
         }
-        var target = variables.map(function (v) { return "export const " + v.name + " = `" + v.value + "`;\n"; }).join("");
-        writeFileAsync(outputFile, target).then(function () {
-            console.log("Success: to \"" + outputFile + "\".");
+        const target = variables.map(v => `export const ${v.name} = \`${v.value}\`;\n`).join("");
+        writeFileAsync(outputFile, target).then(() => {
+            console.log(`Success: to "${outputFile}".`);
         });
     });
 }

@@ -1,24 +1,19 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es6",
         "module": "commonjs",
-        "noImplicitAny": true,
-        "sourceMap": false,
+
+        "outDir": "../dist",
+        "declaration": false,
+
+        "strict": true,
         "noUnusedLocals": true,
-        "noImplicitThis": true,
-        "strictNullChecks": true,
         "noImplicitReturns": true,
+
         "skipLibCheck": true,
         "importHelpers": true,
         "jsx": "react",
-        "outDir": "../dist",
-        "declaration": false,
         "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true,
-        "lib": [
-            "es2015.promise",
-            "es5",
-            "dom"
-        ]
+        "allowSyntheticDefaultImports": true
     }
 }

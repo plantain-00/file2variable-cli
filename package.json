@@ -1,6 +1,6 @@
 {
   "name": "file2variable-cli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A CLI tool to read file content and assign it to a variable",
   "main": "dist/index.js",
   "scripts": {
@@ -21,6 +21,7 @@
   "devDependencies": {
     "@types/camelcase": "0.0.30",
     "@types/glob": "5.0.30",
+    "@types/html-minifier": "1.1.30",
     "@types/minimist": "1.2.0",
     "@types/node": "7.0.14",
     "rimraf": "2.6.1",
@@ -30,6 +31,7 @@
   "dependencies": {
     "camelcase": "4.1.0",
     "glob": "7.1.1",
+    "html-minifier": "3.4.4",
     "lodash.flatten": "4.4.0",
     "lodash.uniq": "4.5.0",
     "minimist": "1.2.0",

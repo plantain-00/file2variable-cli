@@ -1,4 +1,2 @@
-export const demoBarHtml = `<a></a>
-<body></body>`;
-export const demoFooHtml = `<div></div>
-<span></span>`;
+export const demoBarHtml = `<body><a></a></body>`;
+export const demoFooHtml = `<div></div><span></span>`;

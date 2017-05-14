@@ -87,11 +87,14 @@ export function executeCommandLine() {
             }
         }
 
-        const target = variables.map(v => {
+        let target = variables.map(v => {
             return v.type === "string"
                 ? `export const ${v.name} = \`${v.value}\`;\n`
                 : `export const ${v.name} = ${v.value};\n`;
         }).join("");
+        if (outputFile.endsWith(".ts") && variables.some(v => v.type === "object")) {
+            target = `/* tslint:disable:object-literal-key-quotes trailing-comma */\n${target}/* tslint:enable:object-literal-key-quotes trailing-comma */\n`;
+        }
         writeFileAsync(outputFile, target).then(() => {
             console.log(`Success: to "${outputFile}".`);
         });

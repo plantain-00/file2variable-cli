@@ -6,6 +6,7 @@ const flatten: <T>(array: T[][]) => T[] = require("lodash.flatten");
 const uniq: <T>(array: T[]) => T[] = require("lodash.uniq");
 import * as path from "path";
 import { minify } from "html-minifier";
+import * as protobuf from "protobufjs";
 
 function globAsync(pattern: string) {
     return new Promise<string[]>((resolve, reject) => {
@@ -52,9 +53,6 @@ export function executeCommandLine() {
         return;
     }
 
-    const htmlMinify = argv["html-minify"];
-    const json = argv.json;
-
     Promise.all(inputFiles.map(file => globAsync(file))).then(files => {
         const uniqFiles = uniq(flatten(files));
 
@@ -73,15 +71,17 @@ export function executeCommandLine() {
 
             const variableName = getVariableName(file);
             let fileString = fs.readFileSync(file).toString();
-            if (htmlMinify && file.endsWith(".html")) {
+            if (argv["html-minify"] && file.endsWith(".html")) {
                 fileString = minify(fileString, {
                     collapseWhitespace: true,
                     caseSensitive: true,
                     collapseInlineTagWhitespace: true,
                 });
                 variables.push({ name: variableName, value: fileString, type: "string" });
-            } else if (json && file.endsWith(".json")) {
+            } else if (argv.json && file.endsWith(".json")) {
                 variables.push({ name: variableName, value: fileString, type: "object" });
+            } else if (argv.protobuf && file.endsWith(".proto")) {
+                variables.push({ name: variableName, value: JSON.stringify((protobuf.parse(fileString).root as protobuf.Root).toJSON(), null, "    "), type: "object" });
             } else {
                 variables.push({ name: variableName, value: fileString, type: "string" });
             }

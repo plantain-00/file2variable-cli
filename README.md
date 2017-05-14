@@ -13,6 +13,6 @@ A CLI tool to read file content and assign it to a variable
 
 #### usage
 
-`file2variable-cli demo/*.html -o demo/variables.js`
+`file2variable-cli demo/*.html demo/*.json -o demo/variables.js`
 
-`file2variable-cli --html-minify demo/*.html -o demo/variables.js`
+`file2variable-cli demo/*.html demo/*.json -o demo/variables.js --html-minify --json`

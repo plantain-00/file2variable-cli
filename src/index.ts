@@ -53,6 +53,7 @@ export function executeCommandLine() {
     }
 
     const htmlMinify = argv["html-minify"];
+    const json = argv.json;
 
     Promise.all(inputFiles.map(file => globAsync(file))).then(files => {
         const uniqFiles = uniq(flatten(files));
@@ -62,7 +63,7 @@ export function executeCommandLine() {
             return;
         }
 
-        const variables: { name: string; value: string }[] = [];
+        const variables: { name: string; value: string; type: "string" | "object" }[] = [];
 
         for (const file of uniqFiles) {
             if (!fs.existsSync(file)) {
@@ -72,18 +73,25 @@ export function executeCommandLine() {
 
             const variableName = getVariableName(file);
             let fileString = fs.readFileSync(file).toString();
-            if (htmlMinify) {
+            if (htmlMinify && file.endsWith(".html")) {
                 fileString = minify(fileString, {
                     collapseWhitespace: true,
                     caseSensitive: true,
                     collapseInlineTagWhitespace: true,
                 });
+                variables.push({ name: variableName, value: fileString, type: "string" });
+            } else if (json && file.endsWith(".json")) {
+                variables.push({ name: variableName, value: fileString, type: "object" });
+            } else {
+                variables.push({ name: variableName, value: fileString, type: "string" });
             }
-
-            variables.push({ name: variableName, value: fileString });
         }
 
-        const target = variables.map(v => `export const ${v.name} = \`${v.value}\`;\n`).join("");
+        const target = variables.map(v => {
+            return v.type === "string"
+                ? `export const ${v.name} = \`${v.value}\`;\n`
+                : `export const ${v.name} = ${v.value};\n`;
+        }).join("");
         writeFileAsync(outputFile, target).then(() => {
             console.log(`Success: to "${outputFile}".`);
         });

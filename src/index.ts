@@ -2,8 +2,10 @@ import * as fs from "fs";
 import * as minimist from "minimist";
 import * as camelcase from "camelcase";
 import * as glob from "glob";
+// tslint:disable:no-var-requires
 const flatten: <T>(array: T[][]) => T[] = require("lodash.flatten");
 const uniq: <T>(array: T[]) => T[] = require("lodash.uniq");
+// tslint:enable:no-var-requires
 import * as path from "path";
 import { minify } from "html-minifier";
 import * as protobuf from "protobufjs";
@@ -41,14 +43,16 @@ export function executeCommandLine() {
         "--": true,
     });
 
-    const inputFiles = argv["_"];
+    const inputFiles = argv._;
     if (!inputFiles || inputFiles.length === 0) {
+        // tslint:disable-next-line:no-console
         console.log("Error: no input files.");
         return;
     }
 
-    const outputFile: string = argv["o"];
+    const outputFile: string = argv.o;
     if (!outputFile) {
+        // tslint:disable-next-line:no-console
         console.log("Error: no output files.");
         return;
     }
@@ -57,6 +61,7 @@ export function executeCommandLine() {
         const uniqFiles = uniq(flatten(files));
 
         if (uniqFiles.length === 0) {
+            // tslint:disable-next-line:no-console
             console.log("Error: no input files.");
             return;
         }
@@ -65,6 +70,7 @@ export function executeCommandLine() {
 
         for (const file of uniqFiles) {
             if (!fs.existsSync(file)) {
+                // tslint:disable-next-line:no-console
                 console.log(`Error: file: "${file}" not exists.`);
                 return;
             }
@@ -93,9 +99,12 @@ export function executeCommandLine() {
                 : `export const ${v.name} = ${v.value};\n`;
         }).join("");
         if (outputFile.endsWith(".ts") && variables.some(v => v.type === "object")) {
-            target = `/* tslint:disable:object-literal-key-quotes trailing-comma */\n${target}/* tslint:enable:object-literal-key-quotes trailing-comma */\n`;
+            target = `// tslint:disable:object-literal-key-quotes trailing-comma
+${target}// tslint:enable:object-literal-key-quotes trailing-comma
+`;
         }
         writeFileAsync(outputFile, target).then(() => {
+            // tslint:disable-next-line:no-console
             console.log(`Success: to "${outputFile}".`);
         });
     });

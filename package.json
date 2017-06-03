@@ -36,8 +36,7 @@
     "lodash.flatten": "4.4.0",
     "lodash.uniq": "4.5.0",
     "minimist": "1.2.0",
-    "protobufjs": "6.7.3",
-    "tslib": "1.7.1"
+    "protobufjs": "6.7.3"
   },
   "bin": {
     "file2variable-cli": "./bin/file2variable-cli"

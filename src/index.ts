@@ -2,10 +2,8 @@ import * as fs from "fs";
 import * as minimist from "minimist";
 import * as camelcase from "camelcase";
 import * as glob from "glob";
-// tslint:disable:no-var-requires
-const flatten: <T>(array: T[][]) => T[] = require("lodash.flatten");
-const uniq: <T>(array: T[]) => T[] = require("lodash.uniq");
-// tslint:enable:no-var-requires
+import flatten = require("lodash.flatten");
+import uniq = require("lodash.uniq");
 import * as path from "path";
 import { minify } from "html-minifier";
 import * as protobuf from "protobufjs";

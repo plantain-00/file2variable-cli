@@ -55,6 +55,8 @@ export function executeCommandLine() {
         return;
     }
 
+    const base: string = argv.base;
+
     Promise.all(inputFiles.map(file => globAsync(file))).then(files => {
         const uniqFiles = uniq(flatten(files));
 
@@ -73,7 +75,7 @@ export function executeCommandLine() {
                 return;
             }
 
-            const variableName = getVariableName(file);
+            const variableName = getVariableName(base ? path.relative(base, file) : file);
             let fileString = fs.readFileSync(file).toString();
             if (argv["html-minify"] && file.endsWith(".html")) {
                 fileString = minify(fileString, {

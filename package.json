@@ -1,13 +1,13 @@
 {
   "name": "file2variable-cli",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A CLI tool to read file content and assign it to a variable",
   "main": "dist/index.js",
   "scripts": {
     "build": "npm run clean && tsc -p src",
     "lint": "tslint \"src/*.ts\"",
     "clean": "rimraf dist",
-    "demo": "node dist/index.js demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf",
+    "demo": "node dist/index.js demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --base demo",
     "test": "tsc -p spec && jasmine"
   },
   "repository": {

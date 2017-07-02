@@ -1,10 +1,10 @@
-export const demoBarHtml = `<body><a></a></body>`;
-export const demoFooHtml = `<div></div><span></span>`;
-export const demoBazJson = {
+export const barHtml = `<body><a></a></body>`;
+export const fooHtml = `<div></div><span></span>`;
+export const bazJson = {
     "foo": 1,
     "bar": "baz"
 };
-export const demoFooProto = {
+export const fooProto = {
     "nested": {
         "protocolPackage": {
             "nested": {

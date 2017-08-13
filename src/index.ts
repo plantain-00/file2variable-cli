@@ -41,7 +41,7 @@ function printInConsole(message: any) {
     console.log(message);
 }
 
-export async function executeCommandLine() {
+async function executeCommandLine() {
     const argv = minimist(process.argv.slice(2), { "--": true });
 
     const inputFiles = argv._;

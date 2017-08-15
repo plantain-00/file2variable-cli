@@ -103,9 +103,9 @@ ${target}// tslint:enable:object-literal-key-quotes trailing-comma
     });
 }
 
-try {
-    executeCommandLine();
-} catch (error) {
+executeCommandLine().then(() => {
+    printInConsole("file to variable success.");
+}, error => {
     printInConsole(error);
     process.exit(1);
-}
+});

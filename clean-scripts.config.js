@@ -13,6 +13,7 @@ module.exports = {
   test: [
     'tsc -p spec',
     'jasmine',
+    'node dist/index.js demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --base demo',
     () => new Promise((resolve, reject) => {
       childProcess.exec('git status -s', (error, stdout, stderr) => {
         if (error) {

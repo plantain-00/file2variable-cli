@@ -70,7 +70,7 @@ async function executeCommandLine() {
         const variables: Variable[] = [];
         let count = 0;
         chokidar.watch(inputFiles).on("all", (type: string, file: string) => {
-            printInConsole(`Detecting: ${file}} ${type}`);
+            printInConsole(`Detecting ${type}: ${file}`);
             count++;
             if (type === "add" || type === "change") {
                 const index = variables.findIndex(v => v.file === file);

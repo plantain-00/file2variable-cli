@@ -37,14 +37,6 @@ function writeFileAsync(filename: string, data: string) {
     });
 }
 
-function existsAsync(filename: string) {
-    return new Promise<boolean>((resolve, reject) => {
-        fs.exists(filename, exists => {
-            resolve(exists);
-        });
-    });
-}
-
 function printInConsole(message: any) {
     // tslint:disable-next-line:no-console
     console.log(message);
@@ -104,16 +96,7 @@ async function executeCommandLine() {
     }
 
     if (uniqFiles.length > 0) {
-        const promises: Promise<Variable>[] = [];
-        for (const file of uniqFiles) {
-            if (!await existsAsync(file)) {
-                throw new Error(`Error: file: "${file}" not exists.`);
-            }
-
-            promises.push(fileToVariable(base, file, argv));
-        }
-
-        const variables = await Promise.all(promises);
+        const variables = await Promise.all(uniqFiles.map(file => fileToVariable(base, file, argv)));
         writeVariables(variables, outputFile);
     }
 }

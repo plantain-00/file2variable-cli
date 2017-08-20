@@ -103,17 +103,19 @@ async function executeCommandLine() {
         return;
     }
 
-    const promises: Promise<Variable>[] = [];
-    for (const file of uniqFiles) {
-        if (!await existsAsync(file)) {
-            throw new Error(`Error: file: "${file}" not exists.`);
+    if (uniqFiles.length > 0) {
+        const promises: Promise<Variable>[] = [];
+        for (const file of uniqFiles) {
+            if (!await existsAsync(file)) {
+                throw new Error(`Error: file: "${file}" not exists.`);
+            }
+
+            promises.push(fileToVariable(base, file, argv));
         }
 
-        promises.push(fileToVariable(base, file, argv));
+        const variables = await Promise.all(promises);
+        writeVariables(variables, outputFile);
     }
-
-    const variables = await Promise.all(promises);
-    writeVariables(variables, outputFile);
 }
 
 function writeVariables(variables: Variable[], outputFile: string) {

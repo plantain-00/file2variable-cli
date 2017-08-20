@@ -57,45 +57,47 @@ async function executeCommandLine() {
 
     const base: string = argv.base;
 
-    const files = await Promise.all(inputFiles.map(file => globAsync(file)));
-    const uniqFiles = uniq(flatten(files));
+    Promise.all(inputFiles.map(file => globAsync(file))).then(files => {
+        const uniqFiles = uniq(flatten(files));
 
-    if (uniqFiles.length === 0) {
-        throw new Error("Error: no input files.");
-    }
+        if (uniqFiles.length === 0) {
+            throw new Error("Error: no input files.");
+        }
 
-    const watchMode: boolean = argv.w || argv.watch;
+        const watchMode: boolean = argv.w || argv.watch;
 
-    if (watchMode) {
-        const variables: Variable[] = [];
-        let count = 0;
-        chokidar.watch(inputFiles).on("all", (type: string, file: string) => {
-            printInConsole(`Detecting ${type}: ${file}`);
-            if (type === "add" || type === "change") {
-                const index = variables.findIndex(v => v.file === file);
-                fileToVariable(base, file, argv).then(variable => {
-                    if (index === -1) {
-                        variables.push(variable);
-                    } else {
-                        variables[index] = variable;
-                    }
-                    count++;
-                    if (count >= uniqFiles.length) {
+        if (watchMode) {
+            const variables: Variable[] = [];
+            let count = 0;
+            chokidar.watch(inputFiles).on("all", (type: string, file: string) => {
+                printInConsole(`Detecting ${type}: ${file}`);
+                if (type === "add" || type === "change") {
+                    const index = variables.findIndex(v => v.file === file);
+                    fileToVariable(base, file, argv).then(variable => {
+                        if (index === -1) {
+                            variables.push(variable);
+                        } else {
+                            variables[index] = variable;
+                        }
+                        count++;
+                        if (count >= uniqFiles.length) {
+                            writeVariables(variables, outputFile);
+                        }
+                    });
+                } else if (type === "unlink") {
+                    const index = variables.findIndex(v => v.file === file);
+                    if (index !== -1) {
+                        variables.splice(index, 1);
                         writeVariables(variables, outputFile);
                     }
-                });
-            } else if (type === "unlink") {
-                const index = variables.findIndex(v => v.file === file);
-                if (index !== -1) {
-                    variables.splice(index, 1);
-                    writeVariables(variables, outputFile);
                 }
-            }
-        });
-    } else if (uniqFiles.length > 0) {
-        const variables = await Promise.all(uniqFiles.map(file => fileToVariable(base, file, argv)));
-        writeVariables(variables, outputFile);
-    }
+            });
+        } else if (uniqFiles.length > 0) {
+            Promise.all(uniqFiles.map(file => fileToVariable(base, file, argv))).then(variables => {
+                writeVariables(variables, outputFile);
+            });
+        }
+    });
 }
 
 function writeVariables(variables: Variable[], outputFile: string) {

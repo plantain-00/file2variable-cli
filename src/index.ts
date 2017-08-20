@@ -37,6 +37,14 @@ function writeFileAsync(filename: string, data: string) {
     });
 }
 
+function existsAsync(filename: string) {
+    return new Promise<boolean>((resolve, reject) => {
+        fs.exists(filename, exists => {
+            resolve(exists);
+        });
+    });
+}
+
 function printInConsole(message: any) {
     // tslint:disable-next-line:no-console
     console.log(message);
@@ -97,7 +105,7 @@ async function executeCommandLine() {
 
     const promises: Promise<Variable>[] = [];
     for (const file of uniqFiles) {
-        if (!fs.existsSync(file)) {
+        if (!await existsAsync(file)) {
             throw new Error(`Error: file: "${file}" not exists.`);
         }
 
@@ -128,21 +136,27 @@ ${target}// tslint:enable:object-literal-key-quotes trailing-comma
 function fileToVariable(base: string, file: string, argv: minimist.ParsedArgs) {
     return new Promise<Variable>((resolve, reject) => {
         const variableName = getVariableName(base ? path.relative(base, file) : file);
-        let fileString = fs.readFileSync(file).toString();
-        if (argv["html-minify"] && file.endsWith(".html")) {
-            fileString = minify(fileString, {
-                collapseWhitespace: true,
-                caseSensitive: true,
-                collapseInlineTagWhitespace: true,
-            });
-            resolve({ name: variableName, file, value: fileString, type: "string" });
-        } else if (argv.json && file.endsWith(".json")) {
-            resolve({ name: variableName, file, value: fileString, type: "object" });
-        } else if (argv.protobuf && file.endsWith(".proto")) {
-            resolve({ name: variableName, file, value: JSON.stringify((protobuf.parse(fileString).root as protobuf.Root).toJSON(), null, "    "), type: "object" });
-        } else {
-            resolve({ name: variableName, file, value: fileString, type: "string" });
-        }
+        fs.readFile(file, (error, data) => {
+            if (error) {
+                reject(error);
+            } else {
+                let fileString = data.toString();
+                if (argv["html-minify"] && file.endsWith(".html")) {
+                    fileString = minify(fileString, {
+                        collapseWhitespace: true,
+                        caseSensitive: true,
+                        collapseInlineTagWhitespace: true,
+                    });
+                    resolve({ name: variableName, file, value: fileString, type: "string" });
+                } else if (argv.json && file.endsWith(".json")) {
+                    resolve({ name: variableName, file, value: fileString, type: "object" });
+                } else if (argv.protobuf && file.endsWith(".proto")) {
+                    resolve({ name: variableName, file, value: JSON.stringify((protobuf.parse(fileString).root as protobuf.Root).toJSON(), null, "    "), type: "object" });
+                } else {
+                    resolve({ name: variableName, file, value: fileString, type: "string" });
+                }
+            }
+        });
     });
 }
 

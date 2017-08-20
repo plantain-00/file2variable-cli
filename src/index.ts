@@ -7,6 +7,7 @@ import uniq = require("lodash.uniq");
 import * as path from "path";
 import { minify } from "html-minifier";
 import * as protobuf from "protobufjs";
+import * as chokidar from "chokidar";
 
 function globAsync(pattern: string) {
     return new Promise<string[]>((resolve, reject) => {
@@ -63,31 +64,52 @@ async function executeCommandLine() {
         throw new Error("Error: no input files.");
     }
 
-    const variables: { name: string; value: string; type: "string" | "object" }[] = [];
+    const watchMode: boolean = argv.w || argv.watch;
 
+    if (watchMode) {
+        const variables: Variable[] = [];
+        let count = 0;
+        chokidar.watch(inputFiles).on("all", (type: string, file: string) => {
+            printInConsole(`Detecting: ${file}} ${type}`);
+            count++;
+            if (type === "add" || type === "change") {
+                const index = variables.findIndex(v => v.file === file);
+                fileToVariable(base, file, argv).then(variable => {
+                    if (index === -1) {
+                        variables.push(variable);
+                    } else {
+                        variables[index] = variable;
+                    }
+                    if (count >= uniqFiles.length) {
+                        writeVariables(variables, outputFile);
+                    }
+                });
+            } else if (type === "unlink") {
+                const index = variables.findIndex(v => v.file === file);
+                if (index !== -1) {
+                    variables.splice(index, 1);
+                    writeVariables(variables, outputFile);
+                }
+            }
+        });
+        return;
+    }
+
+    const promises: Promise<Variable>[] = [];
     for (const file of uniqFiles) {
         if (!fs.existsSync(file)) {
             throw new Error(`Error: file: "${file}" not exists.`);
         }
 
-        const variableName = getVariableName(base ? path.relative(base, file) : file);
-        let fileString = fs.readFileSync(file).toString();
-        if (argv["html-minify"] && file.endsWith(".html")) {
-            fileString = minify(fileString, {
-                collapseWhitespace: true,
-                caseSensitive: true,
-                collapseInlineTagWhitespace: true,
-            });
-            variables.push({ name: variableName, value: fileString, type: "string" });
-        } else if (argv.json && file.endsWith(".json")) {
-            variables.push({ name: variableName, value: fileString, type: "object" });
-        } else if (argv.protobuf && file.endsWith(".proto")) {
-            variables.push({ name: variableName, value: JSON.stringify((protobuf.parse(fileString).root as protobuf.Root).toJSON(), null, "    "), type: "object" });
-        } else {
-            variables.push({ name: variableName, value: fileString, type: "string" });
-        }
+        promises.push(fileToVariable(base, file, argv));
     }
 
+    const variables = await Promise.all(promises);
+    writeVariables(variables, outputFile);
+}
+
+function writeVariables(variables: Variable[], outputFile: string) {
+    variables.sort((v1, v2) => v1.name.localeCompare(v2.name));
     let target = variables.map(v => {
         return v.type === "string"
             ? `export const ${v.name} = \`${v.value}\`;\n`
@@ -102,6 +124,29 @@ ${target}// tslint:enable:object-literal-key-quotes trailing-comma
         printInConsole(`Success: to "${outputFile}".`);
     });
 }
+
+function fileToVariable(base: string, file: string, argv: minimist.ParsedArgs) {
+    return new Promise<Variable>((resolve, reject) => {
+        const variableName = getVariableName(base ? path.relative(base, file) : file);
+        let fileString = fs.readFileSync(file).toString();
+        if (argv["html-minify"] && file.endsWith(".html")) {
+            fileString = minify(fileString, {
+                collapseWhitespace: true,
+                caseSensitive: true,
+                collapseInlineTagWhitespace: true,
+            });
+            resolve({ name: variableName, file, value: fileString, type: "string" });
+        } else if (argv.json && file.endsWith(".json")) {
+            resolve({ name: variableName, file, value: fileString, type: "object" });
+        } else if (argv.protobuf && file.endsWith(".proto")) {
+            resolve({ name: variableName, file, value: JSON.stringify((protobuf.parse(fileString).root as protobuf.Root).toJSON(), null, "    "), type: "object" });
+        } else {
+            resolve({ name: variableName, file, value: fileString, type: "string" });
+        }
+    });
+}
+
+type Variable = { name: string; file: string; value: string; type: "string" | "object" };
 
 executeCommandLine().then(() => {
     printInConsole("file to variable success.");

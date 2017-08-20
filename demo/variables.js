@@ -1,9 +1,9 @@
 export const barHtml = `<body><a></a></body>`;
-export const fooHtml = `<div></div><span></span>`;
 export const bazJson = {
     "foo": 1,
     "bar": "baz"
 };
+export const fooHtml = `<div></div><span></span>`;
 export const fooProto = {
     "nested": {
         "protocolPackage": {

@@ -1,6 +1,6 @@
 {
   "name": "file2variable-cli",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "A CLI tool to read file content and assign it to a variable",
   "main": "dist/index.js",
   "scripts": {
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/plantain-00/file2variable-cli#readme",
   "devDependencies": {
     "@types/camelcase": "0.0.30",
+    "@types/chokidar": "1.7.1",
     "@types/glob": "5.0.30",
     "@types/html-minifier": "1.1.30",
     "@types/jasmine": "2.5.53",
@@ -38,6 +39,7 @@
   },
   "dependencies": {
     "camelcase": "4.1.0",
+    "chokidar": "1.7.0",
     "glob": "7.1.2",
     "html-minifier": "3.5.3",
     "lodash.flatten": "4.4.0",

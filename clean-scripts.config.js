@@ -32,5 +32,6 @@ module.exports = {
     ts: `tslint --fix "src/**/*.ts" "spec/*.ts"`,
     js: `standard --fix "**/*.config.js"`
   },
-  release: `clean-release`
+  release: `clean-release`,
+  watch: 'node dist/index.js demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --base demo --watch'
 }

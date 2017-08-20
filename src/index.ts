@@ -71,7 +71,6 @@ async function executeCommandLine() {
         let count = 0;
         chokidar.watch(inputFiles).on("all", (type: string, file: string) => {
             printInConsole(`Detecting ${type}: ${file}`);
-            count++;
             if (type === "add" || type === "change") {
                 const index = variables.findIndex(v => v.file === file);
                 fileToVariable(base, file, argv).then(variable => {
@@ -80,6 +79,7 @@ async function executeCommandLine() {
                     } else {
                         variables[index] = variable;
                     }
+                    count++;
                     if (count >= uniqFiles.length) {
                         writeVariables(variables, outputFile);
                     }
@@ -92,10 +92,7 @@ async function executeCommandLine() {
                 }
             }
         });
-        return;
-    }
-
-    if (uniqFiles.length > 0) {
+    } else if (uniqFiles.length > 0) {
         const variables = await Promise.all(uniqFiles.map(file => fileToVariable(base, file, argv)));
         writeVariables(variables, outputFile);
     }

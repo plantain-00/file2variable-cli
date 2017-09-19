@@ -2,16 +2,14 @@ import * as fs from "fs";
 import * as minimist from "minimist";
 import * as camelcase from "camelcase";
 import * as glob from "glob";
-import flatten = require("lodash.flatten");
-import uniq = require("lodash.uniq");
 import * as path from "path";
 import { minify } from "html-minifier";
 import * as protobuf from "protobufjs";
 import * as chokidar from "chokidar";
 
-function globAsync(pattern: string) {
+function globAsync(pattern: string, ignore?: string | string[]) {
     return new Promise<string[]>((resolve, reject) => {
-        glob(pattern, (error, matches) => {
+        glob(pattern, { ignore }, (error, matches) => {
             if (error) {
                 reject(error);
             } else {
@@ -57,9 +55,7 @@ async function executeCommandLine() {
 
     const base: string = argv.base;
 
-    Promise.all(inputFiles.map(file => globAsync(file))).then(files => {
-        const uniqFiles = uniq(flatten(files));
-
+    globAsync(inputFiles.length === 1 ? inputFiles[0] : `{${inputFiles.join(",")}}`).then(uniqFiles => {
         if (uniqFiles.length === 0) {
             throw new Error("Error: no input files.");
         }

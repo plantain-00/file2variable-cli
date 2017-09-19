@@ -1,6 +1,6 @@
 {
   "name": "file2variable-cli",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "A CLI tool to read file content and assign it to a variable",
   "main": "dist/index.js",
   "scripts": {
@@ -43,8 +43,6 @@
     "chokidar": "1.7.0",
     "glob": "7.1.2",
     "html-minifier": "3.5.5",
-    "lodash.flatten": "4.4.0",
-    "lodash.uniq": "4.5.0",
     "minimist": "1.2.0",
     "protobufjs": "6.8.0"
   },

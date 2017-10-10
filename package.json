@@ -1,10 +1,9 @@
 {
   "name": "file2variable-cli",
-  "version": "1.5.4",
+  "version": "1.6.0",
   "description": "A CLI tool to read file content and assign it to a variable",
   "main": "dist/index.js",
   "scripts": {
-    "demo": "clean-scripts test[2]",
     "build": "clean-scripts build",
     "lint": "clean-scripts lint",
     "test": "clean-scripts test",

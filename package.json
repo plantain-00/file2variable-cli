@@ -8,7 +8,6 @@
     "lint": "clean-scripts lint",
     "test": "clean-scripts test",
     "fix": "clean-scripts fix",
-    "release": "clean-scripts release",
     "watch": "clean-scripts watch"
   },
   "repository": {
@@ -30,7 +29,6 @@
     "@types/html-minifier": "1.1.30",
     "@types/jasmine": "2.8.2",
     "@types/minimist": "1.2.0",
-    "clean-release": "1.4.0",
     "clean-scripts": "1.7.0",
     "jasmine": "2.8.0",
     "no-unused-export": "1.4.3",

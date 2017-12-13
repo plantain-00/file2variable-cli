@@ -159,6 +159,10 @@ type Variable = { name: string; file: string; value: string; type: "string" | "o
 executeCommandLine().then(() => {
     console.log("file to variable success.");
 }, error => {
-    console.log(error);
+    if (error instanceof Error) {
+        console.log(error.message);
+    } else {
+        console.log(error);
+    }
     process.exit(1);
 });

@@ -35,11 +35,6 @@ function writeFileAsync(filename: string, data: string) {
     });
 }
 
-function printInConsole(message: any) {
-    // tslint:disable-next-line:no-console
-    console.log(message);
-}
-
 async function executeCommandLine() {
     const argv = minimist(process.argv.slice(2), { "--": true });
 
@@ -66,7 +61,7 @@ async function executeCommandLine() {
             const variables: Variable[] = [];
             let count = 0;
             chokidar.watch(inputFiles).on("all", (type: string, file: string) => {
-                printInConsole(`Detecting ${type}: ${file}`);
+                console.log(`Detecting ${type}: ${file}`);
                 if (type === "add" || type === "change") {
                     const index = variables.findIndex(v => v.file === file);
                     fileToVariable(base, file, argv, outputFile).then(variable => {
@@ -128,7 +123,7 @@ ${target}/* eslint-disable quotes */
  */
 ${target}`;
     writeFileAsync(outputFile, target).then(() => {
-        printInConsole(`Success: to "${outputFile}".`);
+        console.log(`Success: to "${outputFile}".`);
     });
 }
 
@@ -162,8 +157,8 @@ function fileToVariable(base: string, file: string, argv: minimist.ParsedArgs, o
 type Variable = { name: string; file: string; value: string; type: "string" | "object" };
 
 executeCommandLine().then(() => {
-    printInConsole("file to variable success.");
+    console.log("file to variable success.");
 }, error => {
-    printInConsole(error);
+    console.log(error);
     process.exit(1);
 });

@@ -50,5 +50,4 @@ service-worker.js
 #index.html
 *.data
 spec/*.xlsx
-*.d.ts
 demo/variables.js

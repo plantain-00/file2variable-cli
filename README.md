@@ -8,12 +8,20 @@
 # file2variable-cli
 A CLI tool to read file content and assign it to a variable
 
+#### features
+
++ file content as string variable (`*`)
++ json file content as object variable (`*.json` `--json`)
++ protobuf file content as object variable (`*.proto` `--protobuf`)
++ html file minified (`*.html` `--html-minify`)
++ vue template precompile (`*` `--vue`)
+
 #### install
 
 `npm i file2variable-cli`
 
 #### usage
 
-`file2variable-cli demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf  --base demo`
+`file2variable-cli demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --vue --base demo`
 
-`file2variable-cli demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf  --base demo --watch`
+`file2variable-cli demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --vue --base demo --watch`

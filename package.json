@@ -1,6 +1,6 @@
 {
   "name": "file2variable-cli",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "A CLI tool to read file content and assign it to a variable",
   "main": "dist/index.js",
   "scripts": {
@@ -43,7 +43,10 @@
     "glob": "7.1.2",
     "html-minifier": "3.5.7",
     "minimist": "1.2.0",
-    "protobufjs": "6.8.3"
+    "protobufjs": "6.8.3",
+    "vue": "2.5.10",
+    "vue-template-compiler": "2.5.10",
+    "vue-template-es2015-compiler": "1.6.0"
   },
   "bin": {
     "file2variable-cli": "./bin/file2variable-cli"

@@ -6,6 +6,8 @@ import * as path from "path";
 import { minify } from "html-minifier";
 import * as protobuf from "protobufjs";
 import * as chokidar from "chokidar";
+import * as compiler from "vue-template-compiler";
+import transpile = require("vue-template-es2015-compiler");
 
 function globAsync(pattern: string, ignore?: string | string[]) {
     return new Promise<string[]>((resolve, reject) => {
@@ -91,29 +93,33 @@ async function executeCommandLine() {
     });
 }
 
+function getExpression(variable: Variable, isTs: boolean) {
+    if (variable.type === "string") {
+        return `export const ${variable.name} = \`${variable.value}\`;\n`;
+    }
+    if (variable.type === "object") {
+        return `export const ${variable.name} = ${variable.value};\n`;
+    }
+    const result = transpile(`function ${variable.name}() {${compiler.compile(variable.value).render}}\n`);
+    return isTs ? `// @ts-ignore
+export ${result}` : result;
+}
+
 function writeVariables(variables: Variable[], outputFile: string) {
     variables.sort((v1, v2) => v1.name.localeCompare(v2.name));
     let target: string;
     if (outputFile.endsWith(".ts")) {
-        target = variables.map(v => {
-            return v.type === "string"
-                ? `export const ${v.name} = \`${v.value}\`;\n`
-                : `export const ${v.name} = ${v.value};\n`;
-        }).join("");
+        target = variables.map(v => getExpression(v, true)).join("");
         if (variables.some(v => v.type === "object")) {
-            target = `// tslint:disable:object-literal-key-quotes trailing-comma
-${target}// tslint:enable:object-literal-key-quotes trailing-comma
+            target = `// tslint:disable
+${target}// tslint:enable
 `;
         }
     } else {
-        target = variables.map(v => {
-            return v.type === "string"
-                ? `export const ${v.name} = \`${v.value}\`\n`
-                : `export const ${v.name} = ${v.value}\n`;
-        }).join("");
+        target = variables.map(v => getExpression(v, false)).join("");
         if (variables.some(v => v.type === "object")) {
-            target = `/* eslint-disable quotes */
-${target}/* eslint-disable quotes */
+            target = `/* eslint-disable */
+${target}/* eslint-enable */
 `;
         }
     }
@@ -135,26 +141,36 @@ function fileToVariable(base: string, file: string, argv: minimist.ParsedArgs, o
                 reject(error);
             } else {
                 let fileString = data.toString();
-                if (argv["html-minify"] && file.endsWith(".html")) {
-                    fileString = minify(fileString, {
-                        collapseWhitespace: true,
-                        caseSensitive: true,
-                        collapseInlineTagWhitespace: true,
-                    });
-                    resolve({ name: variableName, file, value: fileString, type: "string" });
+                if (file.endsWith(".html")) {
+                    if (argv["html-minify"]) {
+                        fileString = minify(fileString, {
+                            collapseWhitespace: true,
+                            caseSensitive: true,
+                            collapseInlineTagWhitespace: true,
+                        });
+                    }
+                    if (argv.vue) {
+                        resolve({ name: variableName, file, value: fileString, type: "function" });
+                    } else {
+                        resolve({ name: variableName, file, value: fileString, type: "string" });
+                    }
                 } else if (argv.json && file.endsWith(".json")) {
                     resolve({ name: variableName, file, value: JSON.stringify(JSON.parse(fileString), null, outputFile.endsWith(".ts") ? 4 : 2), type: "object" });
                 } else if (argv.protobuf && file.endsWith(".proto")) {
                     resolve({ name: variableName, file, value: JSON.stringify((protobuf.parse(fileString).root as protobuf.Root).toJSON(), null, outputFile.endsWith(".ts") ? 4 : 2), type: "object" });
                 } else {
-                    resolve({ name: variableName, file, value: fileString, type: "string" });
+                    if (argv.vue) {
+                        resolve({ name: variableName, file, value: fileString, type: "function" });
+                    } else {
+                        resolve({ name: variableName, file, value: fileString, type: "string" });
+                    }
                 }
             }
         });
     });
 }
 
-type Variable = { name: string; file: string; value: string; type: "string" | "object" };
+type Variable = { name: string; file: string; value: string; type: "string" | "object" | "function" };
 
 executeCommandLine().then(() => {
     console.log("file to variable success.");

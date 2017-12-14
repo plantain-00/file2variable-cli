@@ -57,6 +57,9 @@ async function executeCommandLine() {
             throw new Error("Error: no input files.");
         }
 
+        const vueTypeName = argv["vue-type-name"];
+        const vueTypePath = argv["vue-type-path"];
+
         const watchMode: boolean = argv.w || argv.watch;
 
         if (watchMode) {
@@ -74,43 +77,51 @@ async function executeCommandLine() {
                         }
                         count++;
                         if (count >= uniqFiles.length) {
-                            writeVariables(variables, outputFile);
+                            writeVariables(variables, outputFile, vueTypeName, vueTypePath);
                         }
                     });
                 } else if (type === "unlink") {
                     const index = variables.findIndex(v => v.file === file);
                     if (index !== -1) {
                         variables.splice(index, 1);
-                        writeVariables(variables, outputFile);
+                        writeVariables(variables, outputFile, vueTypeName, vueTypePath);
                     }
                 }
             });
         } else if (uniqFiles.length > 0) {
             Promise.all(uniqFiles.map(file => fileToVariable(base, file, argv, outputFile))).then(variables => {
-                writeVariables(variables, outputFile);
+                writeVariables(variables, outputFile, vueTypeName, vueTypePath);
             });
         }
     });
 }
 
-function getExpression(variable: Variable, isTs: boolean) {
+function getExpression(variable: Variable, isTs: boolean, typeName?: string) {
     if (variable.type === "string") {
         return `export const ${variable.name} = \`${variable.value}\`;\n`;
     }
     if (variable.type === "object") {
         return `export const ${variable.name} = ${variable.value};\n`;
     }
-    const result = transpile(`function ${variable.name}() {${compiler.compile(variable.value).render}}\n`);
-    return isTs ? `// @ts-ignore
-export ${result}` : result;
+    let result = transpile(`function ${variable.name}() {${compiler.compile(variable.value).render}}\n`);
+    if (isTs) {
+        if (typeName) {
+            result = result.replace(`function ${variable.name}() {`, `function ${variable.name}(this: ${typeName}) {`);
+        }
+        return `// @ts-ignore\nexport ${result}`;
+    } else {
+        return result;
+    }
 }
 
-function writeVariables(variables: Variable[], outputFile: string) {
+function writeVariables(variables: Variable[], outputFile: string, vueTypeName: string, vueTypePath: string) {
     variables.sort((v1, v2) => v1.name.localeCompare(v2.name));
     let target: string;
     if (outputFile.endsWith(".ts")) {
-        target = variables.map(v => getExpression(v, true)).join("");
+        target = variables.map(v => getExpression(v, true, vueTypeName)).join("");
+        const vueTypesImport = vueTypeName && vueTypePath ? `import { ${vueTypeName} } from "${vueTypePath}";\n` : "";
         target = `// tslint:disable
+${vueTypesImport}
 ${target}// tslint:enable
 `;
     } else {

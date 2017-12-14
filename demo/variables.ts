@@ -3,6 +3,7 @@
  * It is not mean to be edited by hand
  */
 // tslint:disable
+
 // @ts-ignore
 export function barHtml() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
 export const bazJson = {

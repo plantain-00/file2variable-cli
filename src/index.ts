@@ -119,7 +119,14 @@ function writeVariables(variables: Variable[], outputFile: string, vueTypeName: 
     let target: string;
     if (outputFile.endsWith(".ts")) {
         target = variables.map(v => getExpression(v, true, vueTypeName)).join("");
-        const vueTypesImport = vueTypeName && vueTypePath ? `import { ${vueTypeName} } from "${vueTypePath}";\n` : "";
+        let vueTypesImport = "";
+        if (vueTypeName && vueTypePath) {
+            if (vueTypeName.indexOf("<") !== -1) {
+                // Foo<any> -> Foo
+                vueTypeName = vueTypeName.substring(0, vueTypeName.indexOf("<"));
+            }
+            vueTypesImport = `import { ${vueTypeName} } from "${vueTypePath}";\n`;
+        }
         target = `// tslint:disable
 ${vueTypesImport}
 ${target}// tslint:enable

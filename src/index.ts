@@ -103,14 +103,20 @@ function getExpression(variable: Variable, isTs: boolean, typeName?: string) {
     if (variable.type === "object") {
         return `export const ${variable.name} = ${variable.value};\n`;
     }
-    let result = transpile(`function ${variable.name}() {${compiler.compile(variable.value).render}}\n`);
+    const compiled = compiler.compile(variable.value);
+    let result = transpile(`function ${variable.name}() {${compiled.render}}`);
+    const staticResult = transpile(`const ${variable.name}Static = [ ${compiled.staticRenderFns.map(fn => `function() {${fn}}`).join(",")} ]`);
     if (isTs) {
         if (typeName) {
             result = result.replace(`function ${variable.name}() {`, `function ${variable.name}(this: ${typeName}) {`);
         }
-        return `// @ts-ignore\nexport ${result}`;
+        return `// @ts-ignore
+export ${result}
+// @ts-ignore
+export ${staticResult}
+`;
     } else {
-        return result;
+        return result + "\n";
     }
 }
 

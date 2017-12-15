@@ -1,6 +1,7 @@
 declare module "vue-template-compiler" {
     function compile(template: string): {
         render: string;
+        staticRenderFns: string[];
     };
 }
 

@@ -6,12 +6,16 @@
 
 // @ts-ignore
 export function barHtml() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
+// @ts-ignore
+export var barHtmlStatic = [ function() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('body',[_c('a')])} ]
 export const bazJson = {
     "foo": 1,
     "bar": "baz"
 };
 // @ts-ignore
 export function fooHtml() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div')}
+// @ts-ignore
+export var fooHtmlStatic = [  ]
 export const fooProto = {
     "nested": {
         "protocolPackage": {

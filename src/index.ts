@@ -179,11 +179,7 @@ function fileToVariable(base: string, file: string, argv: minimist.ParsedArgs, o
                 } else if (argv.protobuf && file.endsWith(".proto")) {
                     resolve({ name: variableName, file, value: JSON.stringify((protobuf.parse(fileString).root as protobuf.Root).toJSON(), null, outputFile.endsWith(".ts") ? 4 : 2), type: "object" });
                 } else {
-                    if (argv.vue) {
-                        resolve({ name: variableName, file, value: fileString, type: "function" });
-                    } else {
-                        resolve({ name: variableName, file, value: fileString, type: "string" });
-                    }
+                    resolve({ name: variableName, file, value: fileString, type: "string" });
                 }
             }
         });

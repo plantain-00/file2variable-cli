@@ -3,12 +3,19 @@
  * It is not mean to be edited by hand
  */
 /* eslint-disable */
-export const barHtml = `<body><a></a></body>`;
+export function barHtml() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
+export var barHtmlStatic = [ function() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('body',[_c('a')])} ]
+export const bazHtml = `<div><a></a></div>`;
 export const bazJson = {
   "foo": 1,
   "bar": "baz"
 };
-export const fooHtml = `<div></div><span></span>`;
+export function foo2Html() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div')}
+export var foo2HtmlStatic = [  ]
+export function foo3Html() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div')}
+export var foo3HtmlStatic = [  ]
+export function fooHtml() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div')}
+export var fooHtmlStatic = [  ]
 export const fooProto = {
   "nested": {
     "protocolPackage": {
@@ -30,4 +37,6 @@ export const fooProto = {
     }
   }
 };
+export const fooTxt = `const foo = 1;
+`;
 /* eslint-enable */

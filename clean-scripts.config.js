@@ -4,8 +4,8 @@ const tsFiles = `"src/**/*.ts" "spec/**/*.ts"`
 const jsFiles = `"*.config.js"`
 
 const tscSrcCommand = `tsc -p src`
-const demoCommand = 'node dist/index.js demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --base demo'
-const demo2Command = 'node dist/index.js demo/*.html demo/*.json demo/*.proto -o demo/variables.ts --html-minify --json --protobuf --vue --base demo'
+const demoCommand = 'node dist/index.js --config demo/file2variable1.config.js'
+const demo2Command = 'node dist/index.js --config demo/file2variable2.config.js'
 
 module.exports = {
   build: [

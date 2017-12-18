@@ -150,21 +150,30 @@ function writeVariables(variables: Variable[], out: string) {
     let target: string;
     if (out.endsWith(".ts")) {
         target = variables.map(v => getExpression(v, true)).join("");
-        const handlerNames = new Set<string>();
-        const vueTypesImport = variables.map(v => {
-            if (v.handler.type === "vue" && v.handler.name && v.handler.path) {
+        const handlerNameSet = new Set<string>();
+        const handlerNameMap: { [path: string]: string[] } = {};
+        for (const variable of variables) {
+            if (variable.handler.type === "vue" && variable.handler.name && variable.handler.path) {
                 // Foo<any> -> Foo
-                const handlerName = v.handler.name.indexOf("<") !== -1
-                    ? v.handler.name.substring(0, v.handler.name.indexOf("<"))
-                    : v.handler.name;
-                if (handlerNames.has(handlerName)) {
-                    return undefined;
+                const handlerName = variable.handler.name.indexOf("<") !== -1
+                    ? variable.handler.name.substring(0, variable.handler.name.indexOf("<"))
+                    : variable.handler.name;
+                if (!handlerNameSet.has(handlerName)) {
+                    handlerNameSet.add(handlerName);
+                    if (!handlerNameMap[variable.handler.path]) {
+                        handlerNameMap[variable.handler.path] = [];
+                    }
+                    handlerNameMap[variable.handler.path].push(handlerName);
                 }
-                handlerNames.add(handlerName);
-                return `import { ${handlerName} } from "${v.handler.path}";\n`;
+
+                // return ;
             }
-            return undefined;
-        }).filter(s => s).join("");
+        }
+        const handlerPaths = Object.keys(handlerNameMap).sort((h1, h2) => h1.localeCompare(h2));
+        const vueTypesImport = handlerPaths.map(handlerPath => {
+            const handlerNames = handlerNameMap[handlerPath].sort((n1, n2) => n1.localeCompare(n2)).join(", ");
+            return `import { ${handlerNames} } from "${handlerPath}";\n`;
+        }).join("");
         target = `// tslint:disable
 ${vueTypesImport}
 ${target}// tslint:enable

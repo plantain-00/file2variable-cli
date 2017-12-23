@@ -21,11 +21,11 @@
   },
   "homepage": "https://github.com/plantain-00/file2variable-cli#readme",
   "devDependencies": {
-    "@commitlint/cli": "5.2.5",
+    "@commitlint/cli": "5.2.6",
     "@commitlint/config-angular": "5.1.1",
     "@types/camelcase": "4.1.0",
     "@types/chokidar": "1.7.4",
-    "@types/glob": "5.0.33",
+    "@types/glob": "5.0.34",
     "@types/html-minifier": "1.1.30",
     "@types/jasmine": "2.8.2",
     "@types/minimist": "1.2.0",

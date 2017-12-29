@@ -1,3 +1,5 @@
+# file2variable-cli
+
 [![Dependency Status](https://david-dm.org/plantain-00/file2variable-cli.svg)](https://david-dm.org/plantain-00/file2variable-cli)
 [![devDependency Status](https://david-dm.org/plantain-00/file2variable-cli/dev-status.svg)](https://david-dm.org/plantain-00/file2variable-cli#info=devDependencies)
 [![Build Status: Linux](https://travis-ci.org/plantain-00/file2variable-cli.svg?branch=master)](https://travis-ci.org/plantain-00/file2variable-cli)
@@ -5,10 +7,9 @@
 [![npm version](https://badge.fury.io/js/file2variable-cli.svg)](https://badge.fury.io/js/file2variable-cli)
 [![Downloads](https://img.shields.io/npm/dm/file2variable-cli.svg)](https://www.npmjs.com/package/file2variable-cli)
 
-# file2variable-cli
 A CLI tool to read file content and assign it to a variable
 
-#### features
+## features
 
 + file content as string variable (`*`)
 + json file content as object variable (`*.json` `--json`)
@@ -16,17 +17,17 @@ A CLI tool to read file content and assign it to a variable
 + html file minified (`*.html` `--html-minify`)
 + vue template precompile (`*` `--vue` `--vue-type-name "App" --vue-type-path "./index"`)
 
-#### install
+## install
 
 `npm i file2variable-cli`
 
-#### usage
+## usage
 
 `file2variable-cli demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --vue --base demo`
 
 `file2variable-cli demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --vue --base demo --watch`
 
-#### config file
+## config file
 
 `file2variable-cli --config demo/file2variable.config.js`
 

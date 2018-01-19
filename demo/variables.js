@@ -5,11 +5,11 @@
 /* eslint-disable */
 export function barHtml() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
 export var barHtmlStatic = [ function() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('body',[_c('a')])} ]
-export const bazHtml = `<div><a></a></div>`;
+export const bazHtml = `<div><a></a></div>`
 export const bazJson = {
   "foo": 1,
   "bar": "baz"
-};
+}
 export function foo2Html() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div')}
 export var foo2HtmlStatic = [  ]
 export function foo3Html() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div')}
@@ -36,7 +36,7 @@ export const fooProto = {
       }
     }
   }
-};
+}
 export const fooTxt = `const foo = 1;
-`;
+`
 /* eslint-enable */

@@ -3,17 +3,17 @@
  * It is not mean to be edited by hand
  */
 // tslint:disable
-import { App, App2 } from "./index";
+import { App, App2 } from "./index"
 
 // @ts-ignore
 export function barHtml() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
 // @ts-ignore
 export var barHtmlStatic = [ function() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('body',[_c('a')])} ]
-export const bazHtml = `<div><a></a></div>`;
+export const bazHtml = `<div><a></a></div>`
 export const bazJson = {
     "foo": 1,
     "bar": "baz"
-};
+}
 // @ts-ignore
 export function foo2Html(this: App2) {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div')}
 // @ts-ignore
@@ -46,7 +46,7 @@ export const fooProto = {
             }
         }
     }
-};
+}
 export const fooTxt = `const foo = 1;
-`;
+`
 // tslint:enable

@@ -11,7 +11,7 @@ import transpile = require('vue-template-es2015-compiler')
 
 function globAsync (pattern: string, ignore?: string | string[]) {
   return new Promise<string[]>((resolve, reject) => {
-    glob(pattern, { ignore }, (error, matches) => {
+    glob(pattern, { ignore, nodir: true }, (error, matches) => {
       if (error) {
         reject(error)
       } else {
@@ -119,9 +119,13 @@ async function executeCommandLine () {
   })
 }
 
+function escapeLiteralString (value: string) {
+  return value.replace(/`/g, '\\`').replace(/\$/g, '\\$')
+}
+
 function getExpression (variable: Variable, isTs: boolean) {
   if (variable.type === 'string') {
-    return `export const ${variable.name} = \`${variable.value}\`\n`
+    return `export const ${variable.name} = \`${escapeLiteralString(variable.value)}\`\n`
   }
   if (variable.type === 'object') {
     return `export const ${variable.name} = ${variable.value}\n`
@@ -154,10 +158,10 @@ function writeVariables (variables: Variable[], out: string) {
     const handlerNameMap: { [path: string]: string[] } = {}
     for (const variable of variables) {
       if (variable.handler.type === 'vue' && variable.handler.name && variable.handler.path) {
-                // Foo<any> -> Foo
+        // Foo<any> -> Foo
         const handlerName = variable.handler.name.indexOf('<') !== -1
-                    ? variable.handler.name.substring(0, variable.handler.name.indexOf('<'))
-                    : variable.handler.name
+          ? variable.handler.name.substring(0, variable.handler.name.indexOf('<'))
+          : variable.handler.name
         if (!handlerNameSet.has(handlerName)) {
           handlerNameSet.add(handlerName)
           if (!handlerNameMap[variable.handler.path]) {
@@ -169,9 +173,9 @@ function writeVariables (variables: Variable[], out: string) {
     }
     const handlerPaths = Object.keys(handlerNameMap).sort((h1, h2) => h1.localeCompare(h2))
     const vueTypesImport = handlerPaths.map(handlerPath => {
-            const handlerNames = handlerNameMap[handlerPath].sort((n1, n2) => n1.localeCompare(n2)).join(', ')
-            return `import { ${handlerNames} } from "${handlerPath}"\n`
-        }).join('')
+      const handlerNames = handlerNameMap[handlerPath].sort((n1, n2) => n1.localeCompare(n2)).join(', ')
+      return `import { ${handlerNames} } from "${handlerPath}"\n`
+    }).join('')
     target = `// tslint:disable
 ${vueTypesImport}
 ${target}// tslint:enable
@@ -260,27 +264,27 @@ type Variable = {
 }
 
 type Handler =
-    {
-      type: 'text';
-    }
-    |
-    {
-      type: 'html-minify';
-    }
-    |
-    {
-      type: 'json';
-    }
-    |
-    {
-      type: 'protobuf';
-    }
-    |
-    {
-      type: 'vue';
-      name?: string;
-      path?: string;
-    }
+  {
+    type: 'text';
+  }
+  |
+  {
+    type: 'html-minify';
+  }
+  |
+  {
+    type: 'json';
+  }
+  |
+  {
+    type: 'protobuf';
+  }
+  |
+  {
+    type: 'vue';
+    name?: string;
+    path?: string;
+  }
 
 type ConfigData = {
   base?: string;

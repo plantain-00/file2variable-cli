@@ -11,7 +11,7 @@ import transpile = require('vue-template-es2015-compiler')
 
 function globAsync (pattern: string, ignore?: string | string[]) {
   return new Promise<string[]>((resolve, reject) => {
-    glob(pattern, { ignore, nodir: true }, (error, matches) => {
+    glob(pattern, { ignore, nodir: true, dot: true }, (error, matches) => {
       if (error) {
         reject(error)
       } else {

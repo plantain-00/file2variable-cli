@@ -1,13 +1,13 @@
 import * as fs from 'fs'
-import * as minimist from 'minimist'
-import * as camelcase from 'camelcase'
-import * as glob from 'glob'
+import minimist from 'minimist'
+import camelcase from 'camelcase'
+import glob from 'glob'
 import * as path from 'path'
 import { minify } from 'html-minifier'
 import * as protobuf from 'protobufjs'
 import * as chokidar from 'chokidar'
 import * as compiler from 'vue-template-compiler'
-import transpile = require('vue-template-es2015-compiler')
+import transpile from 'vue-template-es2015-compiler'
 
 function globAsync (pattern: string, ignore?: string | string[]) {
   return new Promise<string[]>((resolve, reject) => {

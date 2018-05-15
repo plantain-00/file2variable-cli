@@ -6,6 +6,7 @@
   "scripts": {
     "build": "clean-scripts build",
     "lint": "clean-scripts lint",
+    "test:run": "clean-release --config clean-run.config.js",
     "test": "clean-scripts test",
     "fix": "clean-scripts fix",
     "watch": "clean-scripts watch"
@@ -47,6 +48,7 @@
     "html-minifier": "3.5.15",
     "minimist": "1.2.0",
     "protobufjs": "6.8.6",
+    "tslib": "1.9.1",
     "vue": "^2.5",
     "vue-template-compiler": "^2.5",
     "vue-template-es2015-compiler": "1.6.0"

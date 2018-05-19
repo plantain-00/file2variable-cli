@@ -133,7 +133,7 @@ function getDefaultConfigData(argv: minimist.ParsedArgs): ConfigData {
 }
 
 function escapeLiteralString(value: string) {
-  return value.replace(/`/g, '\\`').replace(/\$/g, '\\$')
+  return value.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$')
 }
 
 function getExpression(variable: Variable, isTs: boolean) {

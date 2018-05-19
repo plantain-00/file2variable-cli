@@ -39,4 +39,8 @@ export const fooProto = {
 }
 export const fooTxt = `const foo = 1;
 `
+export const regexJs = `export const reg = /[\\\\/]node_modules[\\\\/]/
+export const s = \`[\\\\/]node_modules[\\\\/]\`
+export const c = \`a\${s}b\`
+`
 /* eslint-enable */

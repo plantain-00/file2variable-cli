@@ -4,7 +4,8 @@ module.exports = {
     'demo/*.txt',
     'demo/*.html',
     'demo/*.json',
-    'demo/*.proto'
+    'demo/*.proto',
+    'demo/regex.js'
   ],
   /**
    * @argument {string} file

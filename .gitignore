@@ -50,4 +50,4 @@ service-worker.js
 #index.html
 *.data
 spec/*.xlsx
-demo/variables.js
+!demo/regex.js

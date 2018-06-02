@@ -145,7 +145,8 @@ function getExpression(variable: Variable, isTs: boolean) {
   }
   const compiled = compiler.compile(variable.value)
   let result = transpile(`function ${variable.name}() {${compiled.render}}`)
-  const staticResult = transpile(`const ${variable.name}Static = [ ${compiled.staticRenderFns.map(fn => `function() {${fn}}`).join(',')} ]`)
+  const staticRenderFns = compiled.staticRenderFns.map(fn => `function() {${fn}}`)
+  const staticResult = transpile(`const ${variable.name}Static = [ ${staticRenderFns.join(',')} ]`)
   if (isTs) {
     if (variable.handler.type === 'vue' && variable.handler.name && variable.handler.path) {
       result = result.replace(`function ${variable.name}() {`, `function ${variable.name}(this: ${variable.handler.name}) {`)

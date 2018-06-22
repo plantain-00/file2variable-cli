@@ -37,18 +37,18 @@
     "rimraf": "2.6.2",
     "standard": "11.0.1",
     "tslint": "5.10.0",
-    "tslint-config-standard": "7.0.0",
+    "tslint-config-standard": "7.1.0",
     "tslint-sonarts": "1.7.0",
     "typescript": "2.9.2"
   },
   "dependencies": {
     "camelcase": "5.0.0",
-    "chokidar": "2.0.3",
+    "chokidar": "2.0.4",
     "glob": "7.1.2",
     "html-minifier": "3.5.16",
     "minimist": "1.2.0",
     "protobufjs": "6.8.6",
-    "tslib": "1.9.2",
+    "tslib": "1.9.3",
     "vue": "^2.5",
     "vue-template-compiler": "^2.5",
     "vue-template-es2015-compiler": "1.6.0"

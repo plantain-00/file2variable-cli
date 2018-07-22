@@ -36,7 +36,7 @@
     "no-unused-export": "1.5.1",
     "rimraf": "2.6.2",
     "standard": "11.0.1",
-    "tslint": "5.10.0",
+    "tslint": "5.11.0",
     "tslint-config-standard": "7.1.0",
     "tslint-sonarts": "1.7.0",
     "typescript": "2.9.2"
@@ -47,7 +47,7 @@
     "glob": "7.1.2",
     "html-minifier": "3.5.19",
     "minimist": "1.2.0",
-    "protobufjs": "6.8.6",
+    "protobufjs": "6.8.8",
     "tslib": "1.9.3",
     "vue": "^2.5",
     "vue-template-compiler": "^2.5",

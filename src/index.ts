@@ -57,7 +57,6 @@ async function executeCommandLine() {
   }
 }
 
-// tslint:disable-next-line:cognitive-complexity
 function watchFileChanges(configData: ConfigData, uniqFiles: string[]) {
   const variables: Variable[] = []
   let count = 0
@@ -170,8 +169,10 @@ function writeVariables(variables: Variable[], out: string) {
     target = variables.map(v => getExpression(v, true)).join('')
     const vueTypesImport = getVueTypesImport(variables)
     target = `// tslint:disable
+/* eslint-disable */
 ${vueTypesImport}
-${target}// tslint:enable
+${target}/* eslint-enable */
+// tslint:enable
 `
   } else {
     target = variables.map(v => getExpression(v, false)).join('')
@@ -285,7 +286,7 @@ function getVariable(
   }
 }
 
-type Variable = {
+interface Variable {
   name: string;
   file: string;
   value: string;
@@ -316,7 +317,7 @@ type Handler =
     path?: string;
   }
 
-type ConfigData = {
+interface ConfigData {
   base?: string;
   files: string[];
   handler: (file: string) => Handler;

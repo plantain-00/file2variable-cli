@@ -15,8 +15,7 @@ module.exports = {
     demo2Command
   ],
   lint: {
-    ts: `tslint ${tsFiles}`,
-    js: `standard ${jsFiles}`,
+    ts: `eslint --ext .js,.ts ${tsFiles} ${jsFiles}`,
     export: `no-unused-export ${tsFiles}`,
     commit: `commitlint --from=HEAD~1`,
     markdown: `markdownlint README.md`,
@@ -28,10 +27,7 @@ module.exports = {
     'clean-release --config clean-run.config.js',
     () => checkGitStatus()
   ],
-  fix: {
-    ts: `tslint --fix ${tsFiles}`,
-    js: `standard --fix ${jsFiles}`
-  },
+  fix: `eslint --ext .js,.ts ${tsFiles} ${jsFiles} --fix`,
   watch: {
     ts: `${tscSrcCommand} --watch`,
     demo: `${demoCommand} --watch`,

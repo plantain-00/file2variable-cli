@@ -3,6 +3,7 @@
  * It is not mean to be edited by hand
  */
 // tslint:disable
+/* eslint-disable */
 import { App, App2 } from "./index"
 
 // @ts-ignore
@@ -49,4 +50,5 @@ export const fooProto = {
 }
 export const fooTxt = `const foo = 1;
 `
+/* eslint-enable */
 // tslint:enable

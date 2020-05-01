@@ -45,16 +45,16 @@
     "typescript": "3.8.3"
   },
   "dependencies": {
-    "camelcase": "6.0.0",
-    "chokidar": "3.3.1",
-    "glob": "7.1.6",
-    "html-minifier": "4.0.0",
-    "minimist": "1.2.5",
-    "protobufjs": "6.9.0",
-    "tslib": "1.11.1",
-    "vue": "^2.5",
-    "vue-template-compiler": "^2.5",
-    "vue-template-es2015-compiler": "1.9.1"
+    "camelcase": "6",
+    "chokidar": "3",
+    "glob": "7",
+    "html-minifier": "4",
+    "minimist": "1",
+    "protobufjs": "6",
+    "tslib": "1",
+    "vue": "2",
+    "vue-template-compiler": "2",
+    "vue-template-es2015-compiler": "1"
   },
   "bin": {
     "file2variable-cli": "./bin/file2variable-cli"

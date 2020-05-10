@@ -3,6 +3,7 @@
   "version": "1.9.2",
   "description": "A CLI tool to read file content and assign it to a variable",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "clean-scripts build",
     "lint": "clean-scripts lint",
@@ -20,7 +21,7 @@
     "url": "https://github.com/plantain-00/file2variable-cli/issues"
   },
   "typeCoverage": {
-    "atLeast": 97
+    "atLeast": 100
   },
   "homepage": "https://github.com/plantain-00/file2variable-cli#readme",
   "devDependencies": {
@@ -41,6 +42,7 @@
     "markdownlint-cli": "0.23.0",
     "no-unused-export": "1.10.3",
     "rimraf": "3.0.2",
+    "ts-node": "8.10.1",
     "type-coverage": "2.5.0",
     "typescript": "3.8.3"
   },

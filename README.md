@@ -30,7 +30,7 @@ A CLI tool to read file content and assign it to a variable
 
 ## config file
 
-`file2variable-cli --config demo/file2variable.config.js`
+`file2variable-cli --config demo/file2variable.config.js` or ``file2variable-cli --config demo/file2variable.config.ts``
 
 ```js
 module.exports = {

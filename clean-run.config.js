@@ -8,8 +8,8 @@ module.exports = {
   exclude: [
   ],
   postScript: [
-    'cd "[dir]" && yarn --production',
-    'node [dir]/dist/index.js --config demo/file2variable1.config.js',
-    'node [dir]/dist/index.js --config demo/file2variable2.config.js'
+    'cd "[dir]" && yarn --production && yarn add ts-node -DE',
+    'node [dir]/dist/index.js --config demo/file2variable1.config.ts',
+    'node [dir]/dist/index.js --config demo/file2variable2.config.ts'
   ]
 }

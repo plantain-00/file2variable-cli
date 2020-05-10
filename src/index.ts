@@ -9,6 +9,8 @@ import * as chokidar from 'chokidar'
 import * as compiler from 'vue-template-compiler'
 import transpile from 'vue-template-es2015-compiler'
 
+import { ConfigData, Handler } from './core'
+
 function globAsync(pattern: string, ignore?: string | string[]) {
   return new Promise<string[]>((resolve, reject) => {
     glob(pattern, { ignore, nodir: true, dot: true }, (error, matches) => {
@@ -38,7 +40,7 @@ function writeFileAsync(filename: string, data: string) {
 }
 
 async function executeCommandLine() {
-  const argv = minimist(process.argv.slice(2), { '--': true })
+  const argv = minimist(process.argv.slice(2), { '--': true }) as Args
 
   const configData = getConfigData(argv)
 
@@ -47,7 +49,7 @@ async function executeCommandLine() {
     throw new Error('Error: no input files.')
   }
 
-  const watchMode: boolean = argv.w || argv.watch
+  const watchMode = argv.w || argv.watch
 
   if (watchMode) {
     watchFileChanges(configData, uniqFiles)
@@ -86,10 +88,16 @@ function watchFileChanges(configData: ConfigData, uniqFiles: string[]) {
   })
 }
 
-function getConfigData(argv: minimist.ParsedArgs): ConfigData {
-  let configData: ConfigData
+function getConfigData(argv: Args): ConfigData {
+  let configData: ConfigData & { default?: ConfigData }
   if (argv.config) {
+    if (argv.config.endsWith('.ts')) {
+      require('ts-node/register/transpile-only')
+    }
     configData = require(path.resolve(process.cwd(), argv.config))
+    if (configData.default) {
+      configData = configData.default
+    }
   } else {
     configData = getDefaultConfigData(argv)
   }
@@ -105,7 +113,7 @@ function getConfigData(argv: minimist.ParsedArgs): ConfigData {
   return configData
 }
 
-function getDefaultConfigData(argv: minimist.ParsedArgs): ConfigData {
+function getDefaultConfigData(argv: Args): ConfigData {
   return {
     base: argv.base,
     files: argv._,
@@ -231,6 +239,21 @@ function fileToVariable(file: string, out: string, base: string | undefined, han
 
 const htmlMinifyName = 'html-minify'
 
+interface Args {
+  w?: boolean
+  watch?: boolean
+  config?: string
+  base?: string
+  _: string[]
+  [htmlMinifyName]?: string
+  vue?: string
+  'vue-type-name'?: string
+  'vue-type-path'?: string
+  json?: boolean
+  protobuf?: boolean
+  o: string
+}
+
 function getVariable(
   handler: Handler,
   variableName: string,
@@ -294,39 +317,9 @@ interface Variable {
   handler: Handler;
 }
 
-type Handler =
-  {
-    type: 'text';
-  }
-  |
-  {
-    type: 'html-minify';
-  }
-  |
-  {
-    type: 'json';
-  }
-  |
-  {
-    type: 'protobuf';
-  }
-  |
-  {
-    type: 'vue';
-    name?: string;
-    path?: string;
-  }
-
-interface ConfigData {
-  base?: string;
-  files: string[];
-  handler: (file: string) => Handler;
-  out: string;
-}
-
 executeCommandLine().then(() => {
   console.log('file to variable success.')
-}, error => {
+}, (error: Error) => {
   if (error instanceof Error) {
     console.log(error.message)
   } else {

@@ -1,4 +1,6 @@
-module.exports = {
+import { ConfigData } from '../dist/core'
+
+export default {
   base: 'demo',
   files: [
     'demo/*.txt',
@@ -41,4 +43,4 @@ module.exports = {
     return { type: 'text' }
   },
   out: 'demo/variables.ts'
-}
+} as ConfigData

@@ -31,10 +31,10 @@
     "@types/html-minifier": "3.5.3",
     "@types/jasmine": "3.5.10",
     "@types/minimist": "1.2.0",
-    "@typescript-eslint/eslint-plugin": "2.31.0",
-    "@typescript-eslint/parser": "2.31.0",
-    "clean-release": "2.8.0",
-    "clean-scripts": "1.12.3",
+    "@typescript-eslint/eslint-plugin": "2.33.0",
+    "@typescript-eslint/parser": "2.33.0",
+    "clean-release": "2.9.1",
+    "clean-scripts": "1.13.1",
     "eslint": "7.0.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-plantain": "1.0.0",
@@ -43,8 +43,8 @@
     "no-unused-export": "1.10.3",
     "rimraf": "3.0.2",
     "ts-node": "8.10.1",
-    "type-coverage": "2.5.0",
-    "typescript": "3.8.3"
+    "type-coverage": "2.6.0",
+    "typescript": "3.9.2"
   },
   "dependencies": {
     "camelcase": "6",
@@ -53,7 +53,7 @@
     "html-minifier": "4",
     "minimist": "1",
     "protobufjs": "6",
-    "tslib": "1",
+    "tslib": "2",
     "vue": "2",
     "vue-template-compiler": "2",
     "vue-template-es2015-compiler": "1"

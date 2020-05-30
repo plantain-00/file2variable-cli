@@ -6,6 +6,7 @@ export type Handler =
   |
   {
     type: 'html-minify';
+    position?: boolean
   }
   |
   {
@@ -20,6 +21,7 @@ export type Handler =
     type: 'vue';
     name?: string;
     path?: string;
+    position?: boolean
   }
 
 export interface ConfigData {
@@ -28,3 +30,8 @@ export interface ConfigData {
   handler: (file: string) => Handler;
   out: string;
 }
+
+/**
+ * @public
+ */
+export type Configuration = ConfigData

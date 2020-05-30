@@ -1,4 +1,4 @@
-import { ConfigData } from '../dist/core'
+import { Configuration } from '../dist/core'
 
 export default {
   base: 'demo',
@@ -9,9 +9,6 @@ export default {
     'demo/*.proto',
     'demo/regex.js'
   ],
-  /**
-   * @argument {string} file
-   */
   handler: file => {
     if (file.endsWith('foo.html')) {
       return {
@@ -44,4 +41,4 @@ export default {
     return { type: 'text' }
   },
   out: 'demo/variables.js'
-} as ConfigData
+} as Configuration

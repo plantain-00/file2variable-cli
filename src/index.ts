@@ -8,6 +8,7 @@ import * as protobuf from 'protobufjs'
 import * as chokidar from 'chokidar'
 import * as compiler from 'vue-template-compiler'
 import transpile from 'vue-template-es2015-compiler'
+import * as parse5 from 'parse5'
 
 import { ConfigData, Handler } from './core'
 
@@ -143,6 +144,23 @@ function escapeLiteralString(value: string) {
   return value.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$')
 }
 
+function addPositionForNode(node: parse5.DefaultTreeNode, file: string) {
+  const sourceCodeLocation = (node as unknown as { sourceCodeLocation: { startLine: number, startCol: number } }).sourceCodeLocation
+  const attrs = (node as unknown as { attrs: { name: string, value: string }[] }).attrs
+  if (attrs) {
+    attrs.push({
+      name: 'data-_position',
+      value: `${file}:${sourceCodeLocation.startLine}:${sourceCodeLocation.startCol}`,
+    })
+  }
+  const childNodes = (node as unknown as { childNodes: parse5.DefaultTreeNode[] }).childNodes
+  if (childNodes) {
+    for (const childNode of childNodes) {
+      addPositionForNode(childNode, file)
+    }
+  }
+}
+
 function getExpression(variable: Variable, isTs: boolean) {
   if (variable.type === 'string') {
     return `export const ${variable.name} = \`${escapeLiteralString(variable.value)}\`\n`
@@ -254,6 +272,14 @@ interface Args {
   o: string
 }
 
+function addPositionsForHtml(value: string, file: string) {
+  const fragment = parse5.parseFragment(value, { sourceCodeLocationInfo: true }) as parse5.DefaultTreeDocumentFragment
+  for (const node of fragment.childNodes) {
+    addPositionForNode(node, file)
+  }
+  return parse5.serialize(fragment)
+}
+
 function getVariable(
   handler: Handler,
   variableName: string,
@@ -262,6 +288,9 @@ function getVariable(
   out: string): Variable {
   let fileString = data.toString()
   if (handler.type === 'vue') {
+    if (handler.position) {
+      fileString = addPositionsForHtml(fileString, file)
+    }
     return {
       name: variableName,
       file,
@@ -270,6 +299,9 @@ function getVariable(
       type: 'function'
     }
   } else if (handler.type === htmlMinifyName) {
+    if (handler.position) {
+      fileString = addPositionsForHtml(fileString, file)
+    }
     fileString = minify(fileString, {
       collapseWhitespace: true,
       caseSensitive: true,
@@ -280,7 +312,7 @@ function getVariable(
       file,
       value: fileString,
       handler,
-      type: 'string'
+      type: 'string',
     }
   } else if (handler.type === 'json') {
     return {

@@ -17,6 +17,7 @@ A CLI tool to read file content and assign it to a variable
 + protobuf file content as object variable (`*.proto` `--protobuf`)
 + html file minified (`*.html` `--html-minify`)
 + vue template precompile (`*` `--vue` `--vue-type-name "App" --vue-type-path "./index"`)
++ position for html file and vue template(`<div data-_position="demo/baz.html:2:5"></div>`)
 
 ## install
 
@@ -33,6 +34,8 @@ A CLI tool to read file content and assign it to a variable
 `file2variable-cli --config demo/file2variable.config.js` or ``file2variable-cli --config demo/file2variable.config.ts``
 
 ```js
+import { Configuration } from 'file2variable-cli'
+
 module.exports = {
   base: 'demo',
   files: [
@@ -41,9 +44,6 @@ module.exports = {
     'demo/*.json',
     'demo/*.proto'
   ],
-  /**
-   * @argument {string} file
-   */
   handler: file => {
     if (file.endsWith('foo.html')) {
       return {
@@ -69,5 +69,5 @@ module.exports = {
     return { type: 'text' }
   },
   out: 'demo/variables.ts'
-}
+} as Configuration
 ```

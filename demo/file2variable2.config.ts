@@ -1,4 +1,4 @@
-import { ConfigData } from '../dist/core'
+import { Configuration } from '../dist/core'
 
 export default {
   base: 'demo',
@@ -8,9 +8,6 @@ export default {
     'demo/*.json',
     'demo/*.proto'
   ],
-  /**
-   * @argument {string} file
-   */
   handler: file => {
     if (file.endsWith('foo.html')) {
       return {
@@ -23,7 +20,8 @@ export default {
       return {
         type: 'vue',
         name: 'App2',
-        path: './index'
+        path: './index',
+        position: true
       }
     }
     if (file.endsWith('bar.html')) {
@@ -32,7 +30,7 @@ export default {
       }
     }
     if (file.endsWith('baz.html')) {
-      return { type: 'html-minify' }
+      return { type: 'html-minify', position: true }
     }
     if (file.endsWith('.json')) {
       return { type: 'json' }
@@ -43,4 +41,4 @@ export default {
     return { type: 'text' }
   },
   out: 'demo/variables.ts'
-} as ConfigData
+} as Configuration

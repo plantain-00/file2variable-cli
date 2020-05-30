@@ -10,10 +10,10 @@ export const bazJson = {
   "foo": 1,
   "bar": "baz"
 }
-export function foo2Html() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div')}
-export var foo2HtmlStatic = [  ]
-export function foo3Html() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div')}
-export var foo3HtmlStatic = [  ]
+export function foo2Html() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
+export var foo2HtmlStatic = [ function() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('span')])} ]
+export function foo3Html() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
+export var foo3HtmlStatic = [ function() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div')])} ]
 export function fooHtml() {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div')}
 export var fooHtmlStatic = [  ]
 export const fooProto = {

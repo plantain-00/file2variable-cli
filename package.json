@@ -1,6 +1,6 @@
 {
   "name": "file2variable-cli",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "description": "A CLI tool to read file content and assign it to a variable",
   "main": "dist/core.js",
   "types": "dist/core.d.ts",
@@ -21,7 +21,7 @@
     "url": "https://github.com/plantain-00/file2variable-cli/issues"
   },
   "typeCoverage": {
-    "atLeast": 98.90
+    "atLeast": 98.9
   },
   "homepage": "https://github.com/plantain-00/file2variable-cli#readme",
   "devDependencies": {

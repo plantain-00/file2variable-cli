@@ -29,9 +29,18 @@ A CLI tool to read file content and assign it to a variable
 
 `file2variable-cli demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --vue --base demo --watch`
 
+## options
+
+key | description
+--- | ---
+--config | config file
+-w,--watch | watch mode
+-h,--help | Print this message.
+-v,--version | Print the version
+
 ## config file
 
-`file2variable-cli --config demo/file2variable.config.js` or ``file2variable-cli --config demo/file2variable.config.ts``
+`file2variable-cli --config demo/file2variable.config.js` or `file2variable-cli --config demo/file2variable.config.ts`
 
 ```js
 import { Configuration } from 'file2variable-cli'

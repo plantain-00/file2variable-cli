@@ -10,6 +10,8 @@ import * as compiler from 'vue-template-compiler'
 import transpile from 'vue-template-es2015-compiler'
 import * as parse5 from 'parse5'
 
+import * as packageJson from '../package.json'
+
 import { ConfigData, Handler } from './core'
 
 function globAsync(pattern: string, ignore?: string | string[]) {
@@ -40,8 +42,36 @@ function writeFileAsync(filename: string, data: string) {
   })
 }
 
+function showToolVersion() {
+  console.log(`Version: ${packageJson.version}`)
+}
+
+function showHelp() {
+  console.log(`Version ${packageJson.version}
+Syntax:   file2variable-cli [options] [file...]
+Examples: file2variable-cli --config demo/file2variable.config.js
+          file2variable-cli --config demo/file2variable.config.ts
+          file2variable-cli --config demo/file2variable.config.js --watch
+Options:
+ -h, --help                                         Print this message.
+ -v, --version                                      Print the version
+ -config                                            Config file
+ -w, --watch                                        Watch mode
+`)
+}
+
 async function executeCommandLine() {
   const argv = minimist(process.argv.slice(2), { '--': true }) as Args
+
+  if (argv.v || argv.version) {
+    showToolVersion()
+    return
+  }
+  
+  if (argv.h || argv.help) {
+    showHelp()
+    return
+  }
 
   const configData = getConfigData(argv)
 
@@ -270,6 +300,10 @@ interface Args {
   json?: boolean
   protobuf?: boolean
   o: string
+  v?: unknown
+  version?: unknown
+  h?: unknown
+  help?: unknown
 }
 
 function addPositionsForHtml(value: string, file: string) {

@@ -10,3 +10,7 @@ declare module 'vue-template-es2015-compiler' {
 
   export = transpile
 }
+
+declare module '*.json' {
+  export const version: string
+}

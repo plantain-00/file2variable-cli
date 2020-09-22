@@ -22,7 +22,7 @@
     "url": "https://github.com/plantain-00/file2variable-cli/issues"
   },
   "typeCoverage": {
-    "atLeast": 98.9
+    "atLeast": 99.31
   },
   "homepage": "https://github.com/plantain-00/file2variable-cli#readme",
   "devDependencies": {

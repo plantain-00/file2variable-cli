@@ -6,8 +6,6 @@ import * as path from 'path'
 import { minify } from 'html-minifier'
 import * as protobuf from 'protobufjs'
 import * as chokidar from 'chokidar'
-import * as compiler from 'vue-template-compiler'
-import transpile from 'vue-template-es2015-compiler'
 import * as parse5 from 'parse5'
 
 import * as packageJson from '../package.json'
@@ -67,7 +65,7 @@ async function executeCommandLine() {
     showToolVersion()
     return
   }
-  
+
   if (argv.h || argv.help) {
     showHelp()
     return
@@ -198,6 +196,10 @@ function getExpression(variable: Variable, isTs: boolean) {
   if (variable.type === 'object') {
     return `export const ${variable.name} = ${variable.value}\n`
   }
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const compiler: { compile: (template: string) => { render: string, staticRenderFns: string[] } } = require('vue-template-compiler')
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const transpile: (template: string) => string = require('vue-template-es2015-compiler')
   const compiled = compiler.compile(variable.value)
   let result = transpile(`function ${variable.name}() {${compiled.render}}`)
   const staticRenderFns = compiled.staticRenderFns.map(fn => `function() {${fn}}`)

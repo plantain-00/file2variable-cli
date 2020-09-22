@@ -1,5 +1,16 @@
 # Change Log
 
+## [1.12.2](https://github.com/plantain-00/file2variable-cli/compare/v1.12.1...v1.12.2) (2020-09-22)
+  
+* fix: release script ([4d3588a](https://github.com/plantain-00/file2variable-cli/commit/4d3588af5ccee14fee5a3361aa9f56339b5c2611))
+* feat: lazy load vue-template-compiler ([f0cfae4](https://github.com/plantain-00/file2variable-cli/commit/f0cfae4a06ace37676f322c24f47fbd76ac577ae))
+* chore: update dependencies ([e7f1101](https://github.com/plantain-00/file2variable-cli/commit/e7f110149105c9e1226810970ae75cb2319a6484)) ([1ab0ca3](https://github.com/plantain-00/file2variable-cli/commit/1ab0ca3467ca4e4de2aa877f20cdb3c93e8c2cbd)) ([d5d170b](https://github.com/plantain-00/file2variable-cli/commit/d5d170b6039cb63b26ffcbd92e0c683c3d0e55b5)) ([79f68c2](https://github.com/plantain-00/file2variable-cli/commit/79f68c212dcdae72259694c72dca23ff6e88349f)) ([66d86ad](https://github.com/plantain-00/file2variable-cli/commit/66d86adadf929de534d29f042cefda4cc3cb580d)) ([eb2efd4](https://github.com/plantain-00/file2variable-cli/commit/eb2efd44d6557c21d6ce69db674a813513a0d8fa)) ([9e889c4](https://github.com/plantain-00/file2variable-cli/commit/9e889c40fbf704ec653f92b46a9e3f3480c5fdb1)) ([b4ffa80](https://github.com/plantain-00/file2variable-cli/commit/b4ffa80a90bc6b1bf66dc4c0fca2facff4b4bfb7)) ([cc16c3c](https://github.com/plantain-00/file2variable-cli/commit/cc16c3c8dd7ba89bb09c7b9a8d75f82612b59a07)) ([0a9d437](https://github.com/plantain-00/file2variable-cli/commit/0a9d437702729f840423098973db903309011897)) ([f309305](https://github.com/plantain-00/file2variable-cli/commit/f30930578a38d27a65605542b741360c2e0b53ab))
+* fix: add missing parserOptions ([ff88d8c](https://github.com/plantain-00/file2variable-cli/commit/ff88d8c7dd4fd840b755e45528fee7e17ff53b61))
+* build: add missing publishConfig ([d1765ec](https://github.com/plantain-00/file2variable-cli/commit/d1765ec14576b6c1aa49b6e11285c1ccf7b3a6a3))
+* build: improve release script ([bb244b5](https://github.com/plantain-00/file2variable-cli/commit/bb244b5c589786bfe8c01afc842613e5836d9f02))
+* chore: add changelog ([06a6a37](https://github.com/plantain-00/file2variable-cli/commit/06a6a37e3ac428c905577d0c9e0b696df1229c17))
+* docs: add github ci badge ([c59f178](https://github.com/plantain-00/file2variable-cli/commit/c59f178709f6e71d6fbae53ddc1ac0a4a4be951a))
+
 ## [1.12.1](https://github.com/plantain-00/file2variable-cli/compare/v1.12.0...v1.12.1) (2020-07-07)
   
 * chore: loose tslib ([06357fc](https://github.com/plantain-00/file2variable-cli/commit/06357fcdd5a314ebe4283f546c6b299801003ba1))

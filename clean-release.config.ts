@@ -12,17 +12,17 @@ const config: Configuration = {
   ],
   askVersion: true,
   changesGitStaged: true,
-  postScript: [
-    ({ dir, tag }) => tag
+  postScript: ({ dir, tag, version }) => [
+    tag
       ? `npm publish "${dir}" --access public --tag ${tag}`
       : `npm publish "${dir}" --access public`,
     'git add package.json',
     `git-commits-to-changelog --release ${version}`,
     'git add CHANGELOG.md',
-    ({ version }) => `git commit -m "${version}"`,
-    ({ version }) => `git tag -a v${version} -m 'v${version}'`,
+    `git commit -m "${version}"`,
+    `git tag -a v${version} -m 'v${version}'`,
     'git push',
-    ({ version }) => `git push origin v${version}`
+    `git push origin v${version}`
   ]
 }
 

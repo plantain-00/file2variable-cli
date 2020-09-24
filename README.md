@@ -17,7 +17,8 @@ A CLI tool to read file content and assign it to a variable
 + json file content as object variable (`*.json` `--json`)
 + protobuf file content as object variable (`*.proto` `--protobuf`)
 + html file minified (`*.html` `--html-minify`)
-+ vue template precompile (`*` `--vue` `--vue-type-name "App" --vue-type-path "./index"`)
++ vue2 template precompile (`*` `--vue` `--vue-type-name "App" --vue-type-path "./index"`)
++ vue3 template precompile (`*` `--vue3`)
 + position for html file and vue template(`<div data-_position="demo/baz.html:2:5"></div>`)
 
 ## install

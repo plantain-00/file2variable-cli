@@ -23,6 +23,11 @@ export type Handler =
     path?: string;
     position?: boolean
   }
+  |
+  {
+    type: 'vue3';
+    position?: boolean
+  }
 
 export interface ConfigData {
   base?: string;

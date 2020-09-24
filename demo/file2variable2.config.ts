@@ -11,22 +11,23 @@ export default {
   handler: file => {
     if (file.endsWith('foo.html')) {
       return {
-        type: 'vue',
-        name: 'App',
-        path: './index'
+        type: 'vue3',
+      }
+    }
+    if (file.endsWith('vue3.html')) {
+      return {
+        type: 'vue3',
       }
     }
     if (file.endsWith('foo2.html') || file.endsWith('foo3.html')) {
       return {
-        type: 'vue',
-        name: 'App2',
-        path: './index',
+        type: 'vue3',
         position: true
       }
     }
     if (file.endsWith('bar.html')) {
       return {
-        type: 'vue'
+        type: 'vue3'
       }
     }
     if (file.endsWith('baz.html')) {

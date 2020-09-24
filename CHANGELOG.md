@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.13.0](https://github.com/plantain-00/file2variable-cli/compare/v1.12.2...v1.13.0) (2020-09-24)
+  
+* feat: support vue3 template precompile ([5de492b](https://github.com/plantain-00/file2variable-cli/commit/5de492b783b272979ac560bca70be92a0b4d2cf7))
+* refactor: remove unused code ([079c13f](https://github.com/plantain-00/file2variable-cli/commit/079c13f449ed8170508403898b3daa5db278e095))
+* fix: ci failure ([ff5672f](https://github.com/plantain-00/file2variable-cli/commit/ff5672f520f8bd18ec6c1a6ef1d3a9d44d4bee08))
+
 ## [1.12.2](https://github.com/plantain-00/file2variable-cli/compare/v1.12.1...v1.12.2) (2020-09-22)
   
 * fix: release script ([4d3588a](https://github.com/plantain-00/file2variable-cli/commit/4d3588af5ccee14fee5a3361aa9f56339b5c2611))

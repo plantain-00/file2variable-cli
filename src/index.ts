@@ -199,9 +199,10 @@ function getExpression(variable: Variable, isTs: boolean, getNewImports: (import
   }
   if (variable.type === 'vue3') {
     const compiled = compileTemplate(variable.value, { mode: 'module', cacheHandlers: true })
-    const parts = compiled.code.split('\n\n', 2)
-    getNewImports(parts[0].substring('import { '.length, parts[0].length - ' } from "vue"'.length).split(', '))
-    const renderFunction = parts[1].substring('export function render'.length)
+    const index = compiled.code.indexOf('\n')
+    const imports = compiled.code.substring(0, index).trim()
+    getNewImports(imports.substring('import { '.length, imports.length - ' } from "vue"'.length).split(', '))
+    const renderFunction = compiled.code.substring(index).trim().substring('export function render'.length)
     return `export function ${variable.name}${renderFunction}
 `
   }

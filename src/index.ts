@@ -7,7 +7,7 @@ import { minify } from 'html-minifier'
 import * as protobuf from 'protobufjs'
 import * as chokidar from 'chokidar'
 import * as parse5 from 'parse5'
-import { compileTemplate } from '@vue/compiler-sfc'
+import { compile as compileTemplate } from '@vue/compiler-dom'
 
 import * as packageJson from '../package.json'
 
@@ -198,17 +198,11 @@ function getExpression(variable: Variable, isTs: boolean, getNewImports: (import
     return `export const ${variable.name} = ${variable.value}\n`
   }
   if (variable.type === 'vue3') {
-    const compiled = compileTemplate({
-      source: variable.value,
-      filename: variable.file,
-    })
-    const parts = compiled.code.split('\n\n')
-    const renderParts = parts[2].split('\n')
+    const compiled = compileTemplate(variable.value, { mode: 'module', cacheHandlers: true })
+    const parts = compiled.code.split('\n\n', 2)
     getNewImports(parts[0].substring('import { '.length, parts[0].length - ' } from "vue"'.length).split(', '))
-    return `export function ${variable.name}(_ctx, _cache) {
-${parts[1].split('\n').map((s) => '  ' + s).join('\n')}
-${renderParts.slice(1, renderParts.length - 1).join('\n')}
-}
+    const renderFunction = parts[1].substring('export function render'.length)
+    return `export function ${variable.name}${renderFunction}
 `
   }
   // eslint-disable-next-line @typescript-eslint/no-var-requires

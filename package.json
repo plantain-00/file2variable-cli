@@ -22,7 +22,7 @@
     "url": "https://github.com/plantain-00/file2variable-cli/issues"
   },
   "typeCoverage": {
-    "atLeast": 99.37
+    "atLeast": 99.36
   },
   "homepage": "https://github.com/plantain-00/file2variable-cli#readme",
   "devDependencies": {
@@ -46,7 +46,7 @@
     "typescript": "4.0.3"
   },
   "dependencies": {
-    "@vue/compiler-sfc": "3",
+    "@vue/compiler-dom": "3",
     "camelcase": "6",
     "chokidar": "3",
     "glob": "7",

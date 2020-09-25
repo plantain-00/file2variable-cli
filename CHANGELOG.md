@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.13.1](https://github.com/plantain-00/file2variable-cli/compare/v1.13.0...v1.13.1) (2020-09-25)
+  
+* refactor: use low level api of vue template prerender ([0751101](https://github.com/plantain-00/file2variable-cli/commit/0751101654d4fdb28292cd01d4e118fbbe17bb3e))
+
 ## [1.13.0](https://github.com/plantain-00/file2variable-cli/compare/v1.12.2...v1.13.0) (2020-09-24)
   
 * feat: support vue3 template precompile ([5de492b](https://github.com/plantain-00/file2variable-cli/commit/5de492b783b272979ac560bca70be92a0b4d2cf7))

@@ -1,6 +1,6 @@
 {
   "name": "file2variable-cli",
-  "version": "1.13.2",
+  "version": "1.13.3",
   "description": "A CLI tool to read file content and assign it to a variable",
   "main": "dist/core.js",
   "types": "dist/core.d.ts",

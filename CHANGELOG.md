@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.13.3](https://github.com/plantain-00/file2variable-cli/compare/v1.13.2...v1.13.3) (2020-09-26)
+  
+* fix: ts ingore file only if necessary ([aeddf95](https://github.com/plantain-00/file2variable-cli/commit/aeddf95764a09a4b4f06712231e4405ac5d70bd8))
+* chore: update dependencies ([acc284d](https://github.com/plantain-00/file2variable-cli/commit/acc284d028a81cd7285e8906a484bd432e0865c5))
+
 ## [1.13.2](https://github.com/plantain-00/file2variable-cli/compare/v1.13.1...v1.13.2) (2020-09-25)
   
 * fix: vue3 template prerender ([30a04cf](https://github.com/plantain-00/file2variable-cli/commit/30a04cf88050c79895369e64cd5cb61877ca9799))

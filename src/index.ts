@@ -214,8 +214,15 @@ function getExpression(variable: Variable, isTs: boolean, getNewImports: (import
   let result = transpile(`function ${variable.name}() {${compiled.render}}`)
   const staticRenderFns = compiled.staticRenderFns.map(fn => `function() {${fn}}`)
   const staticResult = transpile(`const ${variable.name}Static = [ ${staticRenderFns.join(',')} ]`)
-  if (isTs && variable.handler.type === 'vue' && variable.handler.name && variable.handler.path) {
-    result = result.replace(`function ${variable.name}() {`, `function ${variable.name}(this: ${variable.handler.name}) {`)
+  if (isTs) {
+    if (variable.handler.type === 'vue' && variable.handler.name && variable.handler.path) {
+      result = result.replace(`function ${variable.name}() {`, `function ${variable.name}(this: ${variable.handler.name}) {`)
+    }
+    return `// @ts-ignore
+export ${result}
+// @ts-ignore
+export ${staticResult}
+`
   }
   return `export ${result}
 export ${staticResult}
@@ -228,7 +235,9 @@ function writeVariables(variables: Variable[], out: string) {
   let head = ''
   let imports: string[] = []
   if (out.endsWith('.ts')) {
-    head = '// @ts-nocheck\n'
+    if (variables.some(v => v.type === 'vue3')) {
+      head = '// @ts-nocheck\n'
+    }
     target = variables.map(v => getExpression(v, true, (s) => imports.push(...s))).join('')
     const vueTypesImport = getVueTypesImport(variables)
     target = `// tslint:disable

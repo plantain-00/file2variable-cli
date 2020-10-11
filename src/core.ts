@@ -18,13 +18,6 @@ export type Handler =
   }
   |
   {
-    type: 'vue';
-    name?: string;
-    path?: string;
-    position?: boolean
-  }
-  |
-  {
     type: 'vue3';
     position?: boolean
   }

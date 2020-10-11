@@ -22,7 +22,7 @@
     "url": "https://github.com/plantain-00/file2variable-cli/issues"
   },
   "typeCoverage": {
-    "atLeast": 99.36
+    "atLeast": 99.24
   },
   "homepage": "https://github.com/plantain-00/file2variable-cli#readme",
   "devDependencies": {
@@ -54,10 +54,7 @@
     "minimist": "1",
     "parse5": "6",
     "protobufjs": "6",
-    "tslib": "1 || 2",
-    "vue": "2",
-    "vue-template-compiler": "2",
-    "vue-template-es2015-compiler": "1"
+    "tslib": "1 || 2"
   },
   "bin": {
     "file2variable-cli": "./bin/file2variable-cli"

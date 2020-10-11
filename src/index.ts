@@ -149,9 +149,6 @@ function getDefaultConfigData(argv: Args): ConfigData {
     files: argv._,
     handler: file => {
       if (file.endsWith('.html')) {
-        if (argv.vue) {
-          return { type: 'vue', name: argv['vue-type-name'], path: argv['vue-type-path'] }
-        }
         if (argv[htmlMinifyName]) {
           return { type: htmlMinifyName }
         }
@@ -190,7 +187,7 @@ function addPositionForNode(node: parse5.DefaultTreeNode, file: string) {
   }
 }
 
-function getExpression(variable: Variable, isTs: boolean, getNewImports: (imports: string[]) => void) {
+function getExpression(variable: Variable, getNewImports: (imports: string[]) => void) {
   if (variable.type === 'string') {
     return `export const ${variable.name} = \`${escapeLiteralString(variable.value)}\`\n`
   }
@@ -206,27 +203,7 @@ function getExpression(variable: Variable, isTs: boolean, getNewImports: (import
     return `export function ${variable.name}${renderFunction}
 `
   }
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const compiler: { compile: (template: string) => { render: string, staticRenderFns: string[] } } = require('vue-template-compiler')
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const transpile: (template: string) => string = require('vue-template-es2015-compiler')
-  const compiled = compiler.compile(variable.value)
-  let result = transpile(`function ${variable.name}() {${compiled.render}}`)
-  const staticRenderFns = compiled.staticRenderFns.map(fn => `function() {${fn}}`)
-  const staticResult = transpile(`const ${variable.name}Static = [ ${staticRenderFns.join(',')} ]`)
-  if (isTs) {
-    if (variable.handler.type === 'vue' && variable.handler.name && variable.handler.path) {
-      result = result.replace(`function ${variable.name}() {`, `function ${variable.name}(this: ${variable.handler.name}) {`)
-    }
-    return `// @ts-ignore
-export ${result}
-// @ts-ignore
-export ${staticResult}
-`
-  }
-  return `export ${result}
-export ${staticResult}
-`
+  throw new Error(`unsupported type: ${variable.type}`)
 }
 
 function writeVariables(variables: Variable[], out: string) {
@@ -238,16 +215,15 @@ function writeVariables(variables: Variable[], out: string) {
     if (variables.some(v => v.type === 'vue3')) {
       head = '// @ts-nocheck\n'
     }
-    target = variables.map(v => getExpression(v, true, (s) => imports.push(...s))).join('')
-    const vueTypesImport = getVueTypesImport(variables)
+    target = variables.map(v => getExpression(v, (s) => imports.push(...s))).join('')
     target = `// tslint:disable
 /* eslint-disable */
-${vueTypesImport}
+
 ${target}/* eslint-enable */
 // tslint:enable
 `
   } else {
-    target = variables.map(v => getExpression(v, false, (s) => imports.push(...s))).join('')
+    target = variables.map(v => getExpression(v, (s) => imports.push(...s))).join('')
     target = `/* eslint-disable */
 ${target}/* eslint-enable */
 `
@@ -265,31 +241,6 @@ ${target}`
   writeFileAsync(out, target).then(() => {
     console.log(`Success: to "${out}".`)
   })
-}
-
-function getVueTypesImport(variables: Variable[]) {
-  const handlerNameSet = new Set<string>()
-  const handlerNameMap: { [path: string]: string[] } = {}
-  for (const variable of variables) {
-    if (variable.handler.type === 'vue' && variable.handler.name && variable.handler.path) {
-      // Foo<any> -> Foo
-      const handlerName = variable.handler.name.indexOf('<') !== -1
-        ? variable.handler.name.substring(0, variable.handler.name.indexOf('<'))
-        : variable.handler.name
-      if (!handlerNameSet.has(handlerName)) {
-        handlerNameSet.add(handlerName)
-        if (!handlerNameMap[variable.handler.path]) {
-          handlerNameMap[variable.handler.path] = []
-        }
-        handlerNameMap[variable.handler.path].push(handlerName)
-      }
-    }
-  }
-  const handlerPaths = Object.keys(handlerNameMap).sort((h1, h2) => h1.localeCompare(h2))
-  return handlerPaths.map(handlerPath => {
-    const handlerNames = handlerNameMap[handlerPath].sort((n1, n2) => n1.localeCompare(n2)).join(', ')
-    return `import { ${handlerNames} } from "${handlerPath}"\n`
-  }).join('')
 }
 
 function fileToVariable(file: string, out: string, base: string | undefined, handler: Handler) {
@@ -315,9 +266,6 @@ interface Args {
   base?: string
   _: string[]
   [htmlMinifyName]?: string
-  vue?: string
-  'vue-type-name'?: string
-  'vue-type-path'?: string
   vue3?: unknown
   json?: boolean
   protobuf?: boolean
@@ -343,7 +291,7 @@ function getVariable(
   data: Buffer,
   out: string): Variable {
   let fileString = data.toString()
-  if (handler.type === 'vue' || handler.type === 'vue3') {
+  if (handler.type === 'vue3') {
     if (handler.position) {
       fileString = addPositionsForHtml(fileString, file)
     }
@@ -401,7 +349,7 @@ interface Variable {
   name: string;
   file: string;
   value: string;
-  type: 'string' | 'object' | 'vue' | 'vue3';
+  type: 'string' | 'object' | 'vue3';
   handler: Handler;
 }
 

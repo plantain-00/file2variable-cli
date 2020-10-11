@@ -17,7 +17,6 @@ A CLI tool to read file content and assign it to a variable
 + json file content as object variable (`*.json` `--json`)
 + protobuf file content as object variable (`*.proto` `--protobuf`)
 + html file minified (`*.html` `--html-minify`)
-+ vue2 template precompile (`*` `--vue` `--vue-type-name "App" --vue-type-path "./index"`)
 + vue3 template precompile (`*` `--vue3`)
 + position for html file and vue template(`<div data-_position="demo/baz.html:2:5"></div>`)
 
@@ -27,9 +26,9 @@ A CLI tool to read file content and assign it to a variable
 
 ## usage
 
-`file2variable-cli demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --vue --base demo`
+`file2variable-cli demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --base demo`
 
-`file2variable-cli demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --vue --base demo --watch`
+`file2variable-cli demo/*.html demo/*.json demo/*.proto -o demo/variables.js --html-minify --json --protobuf --base demo --watch`
 
 ## options
 
@@ -58,14 +57,7 @@ module.exports = {
   handler: file => {
     if (file.endsWith('foo.html')) {
       return {
-        type: 'vue',
-        name: 'App',
-        path: './index'
-      }
-    }
-    if (file.endsWith('bar.html')) {
-      return {
-        type: 'vue'
+        type: 'vue3',
       }
     }
     if (file.endsWith('baz.html')) {

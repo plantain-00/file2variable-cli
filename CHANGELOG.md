@@ -1,5 +1,10 @@
 # Change Log
 
+## [2.0.0](https://github.com/plantain-00/file2variable-cli/compare/v1.13.3...v2.0.0) (2020-10-11)
+  
+* feat: deprecate --vue, --vue-type-name, --vue-type-path ([d9aa1fd](https://github.com/plantain-00/file2variable-cli/commit/d9aa1fd8c67d5ca7fdc31244ae79362feea4bde1))
+* chore: update dependencies ([ea983bd](https://github.com/plantain-00/file2variable-cli/commit/ea983bdc7261a421663b52c380339c88908cc8a0)) ([5d58cbe](https://github.com/plantain-00/file2variable-cli/commit/5d58cbee7f9fe5b4e0c3847011b35ce530b8d4e4))
+
 ## [1.13.3](https://github.com/plantain-00/file2variable-cli/compare/v1.13.2...v1.13.3) (2020-09-26)
   
 * fix: ts ingore file only if necessary ([aeddf95](https://github.com/plantain-00/file2variable-cli/commit/aeddf95764a09a4b4f06712231e4405ac5d70bd8))

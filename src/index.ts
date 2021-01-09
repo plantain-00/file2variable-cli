@@ -170,16 +170,19 @@ function escapeLiteralString(value: string) {
   return value.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$')
 }
 
-function addPositionForNode(node: parse5.DefaultTreeNode, file: string) {
-  const sourceCodeLocation = (node as unknown as { sourceCodeLocation: { startLine: number, startCol: number } }).sourceCodeLocation
-  const attrs = (node as unknown as { attrs: { name: string, value: string }[] }).attrs
+function addPositionForNode(node: parse5.ChildNode, file: string) {
+  const sourceCodeLocation = node.sourceCodeLocation
+  if (!sourceCodeLocation) {
+    return
+  }
+  const attrs = (node as parse5.Element).attrs
   if (attrs) {
     attrs.push({
       name: 'data-_position',
       value: `${file}:${sourceCodeLocation.startLine}:${sourceCodeLocation.startCol}`,
     })
   }
-  const childNodes = (node as unknown as { childNodes: parse5.DefaultTreeNode[] }).childNodes
+  const childNodes = (node as parse5.Element).childNodes
   if (childNodes) {
     for (const childNode of childNodes) {
       addPositionForNode(childNode, file)
@@ -277,7 +280,7 @@ interface Args {
 }
 
 function addPositionsForHtml(value: string, file: string) {
-  const fragment = parse5.parseFragment(value, { sourceCodeLocationInfo: true }) as parse5.DefaultTreeDocumentFragment
+  const fragment = parse5.parseFragment(value, { sourceCodeLocationInfo: true })
   for (const node of fragment.childNodes) {
     addPositionForNode(node, file)
   }

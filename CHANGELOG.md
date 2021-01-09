@@ -1,5 +1,9 @@
 # Change Log
 
+## [2.0.1](https://github.com/plantain-00/file2variable-cli/compare/v2.0.0...v2.0.1) (2021-01-09)
+  
+* chore: update dependencies ([0189e83](https://github.com/plantain-00/file2variable-cli/commit/0189e8359f3ef4444764deb8bc1bf75ed84bf860)) ([eba7464](https://github.com/plantain-00/file2variable-cli/commit/eba7464132f480f2a7ca0fc3ec3f1c9298a89383)) ([fb14c7d](https://github.com/plantain-00/file2variable-cli/commit/fb14c7d59315cf9143c14e2f70e2981f5dd705ae)) ([e4a9889](https://github.com/plantain-00/file2variable-cli/commit/e4a988908ac1c4f3060a477ceec818b53be638a8)) ([c324b0d](https://github.com/plantain-00/file2variable-cli/commit/c324b0d76432e6a3ffdce9954f02786db55941ea)) ([9f0edca](https://github.com/plantain-00/file2variable-cli/commit/9f0edca41fe8baeb7daae1f9a364a184f90bc718)) ([de84a44](https://github.com/plantain-00/file2variable-cli/commit/de84a4470df5b5decbbc6881632daafbe25a418a)) ([b5a112f](https://github.com/plantain-00/file2variable-cli/commit/b5a112fd8e4252aefb2bcbc6e561afdbf0d726bd)) ([39bd51f](https://github.com/plantain-00/file2variable-cli/commit/39bd51f2997df9fe5e99bae954b3ccaf3b35243c)) ([f5dc68f](https://github.com/plantain-00/file2variable-cli/commit/f5dc68f20ae60c68647e01150ef4e51204370c5e)) ([5fe1c75](https://github.com/plantain-00/file2variable-cli/commit/5fe1c754d3062315baa4db6866039377beeb2631)) ([6452785](https://github.com/plantain-00/file2variable-cli/commit/64527854232159207d11d6abc68bed15b92bc216)) ([dd59034](https://github.com/plantain-00/file2variable-cli/commit/dd5903472b24f5a5f2d1319fb987e753a09a3663))
+
 ## [2.0.0](https://github.com/plantain-00/file2variable-cli/compare/v1.13.3...v2.0.0) (2020-10-11)
   
 * feat: deprecate --vue, --vue-type-name, --vue-type-path ([d9aa1fd](https://github.com/plantain-00/file2variable-cli/commit/d9aa1fd8c67d5ca7fdc31244ae79362feea4bde1))

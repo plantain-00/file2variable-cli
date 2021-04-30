@@ -38,6 +38,13 @@ export const fooProto = {
         "protocolPackage": {
             "nested": {
                 "Protocol": {
+                    "oneofs": {
+                        "_tick": {
+                            "oneof": [
+                                "tick"
+                            ]
+                        }
+                    },
                     "fields": {
                         "kind": {
                             "rule": "required",
@@ -46,7 +53,10 @@ export const fooProto = {
                         },
                         "tick": {
                             "type": "Tick",
-                            "id": 2
+                            "id": 2,
+                            "options": {
+                                "proto3_optional": true
+                            }
                         }
                     }
                 }

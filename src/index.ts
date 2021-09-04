@@ -74,7 +74,7 @@ async function executeCommandLine() {
 
   const configData = getConfigData(argv)
 
-  const uniqFiles = await globAsync(configData.files.length === 1 ? configData.files[0] : `{${configData.files.join(',')}}`)
+  const uniqFiles = await globAsync(configData.files.length === 1 ? configData.files[0]! : `{${configData.files.join(',')}}`)
   if (uniqFiles.length === 0) {
     throw new Error('Error: no input files.')
   }

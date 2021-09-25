@@ -70,7 +70,7 @@ export function vue3Html(_ctx, _cache) {
   return (_openBlock(), _createElementBlock("div", { class: "app" }, [
     _withDirectives(_createElementVNode("textarea", {
       class: "source",
-      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => (_ctx.source = $event))
+      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => ((_ctx.source) = $event))
     }, null, 512 /* NEED_PATCH */), [
       [_vModelText, _ctx.source]
     ]),
@@ -80,7 +80,7 @@ export function vue3Html(_ctx, _cache) {
       }, "generate"),
       _createElementVNode("div", { class: "options" }, [
         _withDirectives(_createElementVNode("select", {
-          "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => (_ctx.selectedOption = $event))
+          "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => ((_ctx.selectedOption) = $event))
         }, [
           (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.options, (option) => {
             return (_openBlock(), _createElementBlock("option", {
